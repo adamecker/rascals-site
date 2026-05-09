@@ -1,0 +1,61 @@
+---
+// src/pages/shop.astro
+import Layout from '../layouts/Layout.astro';
+
+const merchandise = [
+  {
+    name: "Tank",
+    image: "/images/shop-tank.png",
+    description: "See bartender for details."
+  },
+  {
+    name: "hoodie",
+    image: "/images/shop-hoodie.png",
+    description: "See bartender for details."
+  },
+  {
+    name: "koozie",
+    image: "/images/shop-koozie.png",
+    description: "See bartender for details."
+  }
+];
+---
+
+<Layout title="Shop - Rascals Bar">
+  <main class="w-full bg-base-100 py-12 px-4 text-center min-h-[50vh]">
+    <div class="max-w-5xl mx-auto">
+      
+      <h1 class="text-4xl md:text-5xl font-heading font-bold mb-4 uppercase text-[#5b21b6] tracking-widest">
+        Rascals merchandise
+      </h1>
+      
+      <div class="mb-12"></div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        {merchandise.map((item) => (
+          <div class="bg-[#111111] border border-base-300 p-4 flex flex-col justify-between items-center">
+            
+            <div class="w-full flex items-center justify-center overflow-hidden bg-transparent mb-6">
+              <img 
+                src={item.image} 
+                alt={item.name} 
+                class="max-w-full h-auto object-contain"
+              />
+            </div>
+
+            <div class="w-full text-center pb-2">
+              <h3 class="text-xl font-heading font-bold text-white uppercase tracking-wider mb-2">
+                {item.name}
+              </h3>
+              <p class="text-secondary text-sm font-light leading-relaxed">
+                {item.description}
+              </p>
+            </div>
+
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </main>
+</Layout>

@@ -1,0 +1,119 @@
+---
+// src/pages/gallery.astro
+import Layout from '../layouts/Layout.astro';
+import fs from 'node:fs';
+import path from 'node:path';
+
+// 1. Scan the public/images folder
+const imageDir = path.join(process.cwd(), 'public/images');
+const allFiles = fs.readdirSync(imageDir);
+
+// 2. Filter for gallery images, sort them by number, and create the URL path
+const galleryImages = allFiles
+  .filter(file => file.startsWith('gallery-'))
+  .sort((a, b) => {
+    const numA = parseInt(a.replace(/\D/g, '')) || 0;
+    const numB = parseInt(b.replace(/\D/g, '')) || 0;
+    return numA - numB;
+  })
+  .map(file => `/images/${file}`);
+---
+
+<Layout title="Gallery | Rascals Bar">
+  <main class="w-full bg-base-100 py-12 px-4 text-center min-h-[50vh]">
+    <div class="max-w-5xl mx-auto">
+      
+      <h1 class="text-4xl md:text-5xl font-heading font-bold mb-12 uppercase text-primary tracking-wider border-b border-base-300 pb-4 inline-block">
+        Photo Gallery
+      </h1>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {galleryImages.map((imgSrc, index) => (
+          <div 
+            class="aspect-square bg-base-300 overflow-hidden border border-base-300 cursor-pointer relative group" 
+            onclick={`openLightbox(${index})`}
+          >
+            <img 
+              src={imgSrc} 
+              alt="Rascals Bar Gallery" 
+              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100"
+            />
+            <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/30">
+              <span class="text-white text-3xl">⊕</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </main>
+
+  <dialog id="image_modal" class="modal bg-black/95 backdrop-blur-sm">
+    <div class="modal-box bg-transparent shadow-none max-w-5xl w-full p-0 relative flex items-center justify-center overflow-hidden">
+      
+      <form method="dialog">
+        <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 text-white text-2xl z-50 hover:bg-white/20">✕</button>
+      </form>
+
+      <button 
+        class="absolute left-4 z-50 bg-black/50 hover:bg-black/80 text-white rounded-full p-3 border border-white/20 text-xl font-bold transition-all"
+        onclick="navigateLightbox(-1)"
+      >
+        ❮
+      </button>
+      
+      <img id="modal_image" src="" alt="Full Screen" class="max-w-full h-auto max-h-[85vh] object-contain rounded-none shadow-2xl" />
+
+      <button 
+        class="absolute right-4 z-50 bg-black/50 hover:bg-black/80 text-white rounded-full p-3 border border-white/20 text-xl font-bold transition-all"
+        onclick="navigateLightbox(1)"
+      >
+        ❯
+      </button>
+    </div>
+    
+    <form method="dialog" class="modal-backdrop">
+      <button class="cursor-default">close</button>
+    </form>
+  </dialog>
+
+  <script is:inline define:vars={{ galleryImages }}>
+    let currentIndex = 0;
+
+    window.openLightbox = function(index) {
+      currentIndex = index;
+      updateModalImage();
+      document.getElementById('image_modal').showModal();
+    }
+
+    window.navigateLightbox = function(direction) {
+      currentIndex += direction;
+      
+      // Loop back around if we go out of bounds
+      if (currentIndex < 0) {
+        currentIndex = galleryImages.length - 1;
+      } else if (currentIndex >= galleryImages.length) {
+        currentIndex = 0;
+      }
+      
+      updateModalImage();
+    }
+
+    function updateModalImage() {
+      const modalImg = document.getElementById('modal_image');
+      modalImg.src = galleryImages[currentIndex];
+    }
+
+    // Keyboard Arrow Navigation
+    document.addEventListener('keydown', (e) => {
+      const modal = document.getElementById('image_modal');
+      if (modal.open) {
+        if (e.key === 'ArrowLeft') {
+          navigateLightbox(-1);
+        } else if (e.key === 'ArrowRight') {
+          navigateLightbox(1);
+        }
+      }
+    });
+  </script>
+</Layout>

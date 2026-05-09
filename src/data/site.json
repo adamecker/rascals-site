@@ -1,0 +1,14 @@
+{
+  "title": "Rascals Bar",
+  "email": "rascalsbargrill@gmail.com",
+  "phone": "920-954-9262",
+  "address": "702 E Wisconsin Avenue, Appleton, WI 54911",
+  "hours": [
+    "Sunday: 12 PM - 2 AM",
+    "Monday - Thursday: 5 PM - 2 AM",
+    "Friday - Saturday: 5 PM - 2:30 AM"
+  ],
+  "happy_hour_title": "PULL-TAB HAPPY HOUR",
+  "happy_hour_time": "MONDAY-THURSDAY 5PM-8PM",
+  "happy_hour_special": "$2 Off Double Mixer Monday's"
+}

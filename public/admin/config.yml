@@ -1,0 +1,73 @@
+backend:
+  name: github
+  repo: adamecker/rascals-site
+  branch: main
+
+media_folder: "public/images"
+public_folder: "/images"
+
+collections:
+  - name: "content"
+    label: "Website Content"
+    files:
+      # 1. Global Info (Footer, Header, Homepage Specials)
+      - label: "General Info & Homepage"
+        name: "site_info"
+        file: "src/data/site.json"
+        fields:
+          - { label: "Bar Name", name: "title", widget: "string" }
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Phone", name: "phone", widget: "string" }
+          - { label: "Address", name: "address", widget: "string" }
+          - { label: "Hours", name: "hours", widget: "list" }
+          - { label: "Happy Hour Title", name: "happy_hour_title", widget: "string" }
+          - { label: "Happy Hour Time", name: "happy_hour_time", widget: "string" }
+          - { label: "Happy Hour Special Text", name: "happy_hour_special", widget: "string" }
+
+      # 2. The Menu (Text + Image Uploads)
+      - label: "Menu Page"
+        name: "menu_page"
+        file: "src/data/menu.json"
+        fields:
+          - { label: "Intro Text", name: "intro_text", widget: "string" }
+          - { label: "Sub Text", name: "sub_text", widget: "string" }
+          - label: "Menu Images"
+            name: "menu_images"
+            widget: "list"
+            field: { label: "Image", name: "image", widget: "image" }
+
+      # 3. The Simple Text Pages
+      - label: "Text Pages (Events, About, etc.)"
+        name: "pages"
+        file: "src/data/pages.json"
+        fields:
+          - label: "About Us"
+            name: "about-us"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Content", name: "content", widget: "text" }
+          - label: "Events"
+            name: "events"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Content", name: "content", widget: "text" }
+          - label: "Specials"
+            name: "specials"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Content", name: "content", widget: "text" }
+          - label: "Directions"
+            name: "directions"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Content", name: "content", widget: "text" }
+          - label: "Links"
+            name: "links"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Content", name: "content", widget: "text" }

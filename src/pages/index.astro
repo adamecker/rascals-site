@@ -1,17 +1,74 @@
 ---
-
+// src/pages/index.astro
+import Layout from '../layouts/Layout.astro';
+import siteData from '../data/site.json';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Rascals Bar">
+  
+  <div class="w-full bg-base-100 py-2">
+    <div class="max-w-4xl mx-auto px-4">
+      <div 
+        class="w-full aspect-[16/9] md:aspect-[21/9] bg-cover bg-center relative border border-base-300 flex items-end justify-center" 
+        style="background-image: url('/images/hero.jpg');"
+      >
+        <div class="absolute inset-0 bg-black/40"></div>
+        
+        <div class="relative z-10 flex gap-4 pb-8 w-full justify-center">
+          <a href="/menu" class="btn bg-white text-black hover:bg-gray-200 border-none rounded-none px-8 font-light tracking-widest uppercase text-sm">
+            View Menu
+          </a>
+          <a href="/gallery" class="btn btn-outline border-white text-white hover:bg-white hover:text-black rounded-none px-8 font-light tracking-widest uppercase text-sm">
+            View Gallery
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="py-16 bg-base-100 px-4">
+    <div class="max-w-3xl mx-auto border border-base-300 p-8 md:p-12 text-center bg-base-200 shadow-md">
+      <h2 class="text-3xl md:text-4xl font-heading font-bold mb-4 text-white uppercase tracking-widest">
+        {siteData.happy_hour_title}
+      </h2>
+      <p class="text-lg mb-8 text-secondary tracking-widest uppercase font-light">
+        {siteData.happy_hour_time}
+      </p>
+      
+      <div class="w-16 h-0.5 bg-white mx-auto my-6 opacity-30"></div>
+      
+      <p class="text-2xl md:text-3xl font-light text-white leading-relaxed mb-8">
+        {siteData.happy_hour_special}
+      </p>
+      
+      <a href="/specials" class="btn btn-outline border-white text-white hover:bg-white hover:text-black rounded-none tracking-widest uppercase text-xs px-6">
+        See All Specials
+      </a>
+    </div>
+  </section>
+
+  <section class="pb-20 bg-base-100 px-4">
+    <div class="max-w-4xl mx-auto">
+      
+      <div class="text-center mb-8">
+        <h2 class="text-2xl md:text-3xl font-heading font-bold uppercase text-white tracking-widest">
+          View Gallery
+        </h2>
+      </div>
+
+      <a href="/gallery" class="block relative group overflow-hidden border border-base-300">
+        <img 
+          src="/images/gallery-1.jpg" 
+          alt="Rascals Bar Atmosphere" 
+          class="w-full h-auto object-cover group-hover:scale-102 transition-transform duration-700"
+        />
+        <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+          <span class="text-white text-lg md:text-xl font-heading font-bold uppercase tracking-widest border border-white px-6 py-2">
+            View Full Gallery
+          </span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+</Layout>

@@ -1,0 +1,26 @@
+---
+// src/pages/menu.astro
+import Layout from '../layouts/Layout.astro';
+import menuData from '../data/menu.json';
+---
+
+<Layout title="Menu | Rascals Bar">
+  <main class="w-full bg-base-100 pb-16">
+    
+    <div class="text-center py-12 px-4 max-w-2xl mx-auto">
+      <p class="text-xl md:text-2xl font-light text-white">{menuData.intro_text}</p>
+      <p class="text-lg md:text-xl font-bold mt-4 text-[#ec4899]">{menuData.sub_text}</p>
+    </div>
+
+    <div class="w-full max-w-4xl mx-auto flex flex-col gap-6 px-4">
+      {menuData.menu_images.map((imgSrc, index) => (
+        <img 
+          src={imgSrc} 
+          alt={`Menu Page ${index + 1}`} 
+          class="w-full h-auto border border-base-300 shadow-2xl bg-base-200"
+        />
+      ))}
+    </div>
+
+  </main>
+</Layout>

@@ -1,0 +1,59 @@
+---
+// src/layouts/Layout.astro
+import siteData from '../data/site.json';
+import '../styles/global.css';
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" data-theme="rascals">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{title}</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;600&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+	</head>
+	<body class="flex flex-col min-h-screen bg-black font-sans antialiased text-center text-white">
+        
+    <header class="w-full py-8 bg-black">
+      <div class="max-w-5xl mx-auto px-4">
+        <a href="/" class="inline-block mb-8">
+          <img src="/images/logo.png" alt="Rascals Bar Logo" class="h-32 mx-auto object-contain" onerror="this.style.display='none'" />
+        </a>
+        
+        <nav>
+          <ul class="flex flex-wrap justify-center gap-x-6 gap-y-2 text-lg font-light tracking-wide uppercase">
+            <li><a href="/" class="hover:text-gray-400 transition-colors">Home</a></li>
+            <li><a href="/about-us" class="hover:text-gray-400 transition-colors">About Us</a></li>
+            <li><a href="/menu" class="hover:text-gray-400 transition-colors">Menu</a></li>
+            <li><a href="/specials" class="hover:text-gray-400 transition-colors">Specials</a></li>
+            <li><a href="/events" class="hover:text-gray-400 transition-colors">Events</a></li>
+            <li><a href="/gallery" class="hover:text-gray-400 transition-colors">Gallery</a></li>
+            <li><a href="/shop" class="hover:text-gray-400 transition-colors">Shop</a></li>
+            <li><a href="/directions" class="hover:text-gray-400 transition-colors">Directions</a></li>
+            <li><a href="/links" class="hover:text-gray-400 transition-colors">Links</a></li>
+            <li><a href="/contact" class="hover:text-gray-400 transition-colors">Contact</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+		<slot />
+
+    <footer class="mt-auto py-12 bg-black border-t border-base-300">
+      <div class="text-center text-gray-400 leading-relaxed">
+        <p class="text-lg">{siteData.email} | {siteData.phone}</p>
+        <p class="text-lg mb-6">{siteData.address}</p>
+        
+        <p class="font-bold text-white uppercase tracking-widest mb-2">Hours</p>
+        {siteData.hours.map((hour) => (
+          <p>{hour}</p>
+        ))}
+      </div>
+    </footer>
+    
+	</body>
+</html>

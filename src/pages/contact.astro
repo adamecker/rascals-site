@@ -1,0 +1,87 @@
+---
+// src/pages/contact.astro
+import Layout from '../layouts/Layout.astro';
+import siteData from '../data/site.json';
+---
+
+<Layout title="Contact | Rascals Bar">
+  <main class="w-full bg-base-100 py-12 px-4 text-center min-h-[50vh]">
+    <div class="max-w-2xl mx-auto">
+      
+      <h1 class="text-4xl md:text-5xl font-heading font-bold mb-8 uppercase text-[#5b21b6] tracking-widest border-b border-base-300 pb-4 inline-block">
+        Contact Us
+      </h1>
+      
+      <!-- TODO: replace with your actual Formspree form ID -->
+      <form 
+        action="https://formspree.io/f/YOUR_FORM_ID_HERE"
+        method="POST" 
+        class="bg-[#111111] border border-base-300 p-6 md:p-10 text-left mb-12 shadow-xl"
+      >
+        <h2 class="text-xl font-heading font-bold text-white uppercase tracking-wider mb-6 pb-2 border-b border-base-300">
+          Send a Message
+        </h2>
+        
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col">
+            <label class="text-xs uppercase text-gray-400 tracking-wider mb-1">Your Name</label>
+            <input 
+              type="text" 
+              name="name"
+              placeholder="Enter your name" 
+              class="bg-black border border-base-300 p-3 text-white focus:outline-none focus:border-[#ec4899] transition-colors rounded-none"
+              required
+            />
+          </div>
+
+          <div class="flex flex-col">
+            <label class="text-xs uppercase text-gray-400 tracking-wider mb-1">Your Email</label>
+            <input 
+              type="email" 
+              name="_replyto"
+              placeholder="Enter your email" 
+              class="bg-black border border-base-300 p-3 text-white focus:outline-none focus:border-[#ec4899] transition-colors rounded-none"
+              required
+            />
+          </div>
+
+          <div class="flex flex-col">
+            <label class="text-xs uppercase text-gray-400 tracking-wider mb-1">Your Message</label>
+            <textarea 
+              name="message"
+              rows="5" 
+              placeholder="Write your message here" 
+              class="bg-black border border-base-300 p-3 text-white focus:outline-none focus:border-[#ec4899] transition-colors resize-none rounded-none"
+              required
+            ></textarea>
+          </div>
+
+          <button 
+            type="submit" 
+            class="btn bg-white hover:bg-gray-200 text-black border-none rounded-none w-32 uppercase font-light tracking-widest text-xs py-3 mt-2 self-end"
+          >
+            Send &gt;
+          </button>
+        </div>
+      </form>
+
+      <div class="flex flex-col gap-8 text-secondary text-lg font-light">
+        <div>
+          <p class="font-bold text-white tracking-widest uppercase mb-1">Call Us</p>
+          <a href={`tel:${siteData.phone}`} class="hover:text-white transition-colors text-2xl font-normal text-white">{siteData.phone}</a>
+        </div>
+
+        <div>
+          <p class="font-bold text-white tracking-widest uppercase mb-1">Email</p>
+          <a href={`mailto:${siteData.email}`} class="hover:text-white transition-colors text-[#ec4899]">{siteData.email}</a>
+        </div>
+
+        <div>
+          <p class="font-bold text-white tracking-widest uppercase mb-1">Location</p>
+          <p class="text-gray-300">{siteData.address}</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</Layout>
