@@ -5,75 +5,65 @@ import siteData from '../data/site.json';
 ---
 
 <Layout title="Directions - Rascals Bar">
-  <main class="w-full bg-base-100 py-12 px-4 min-h-[70vh]">
-    <div class="max-w-6xl mx-auto">
-      
-      <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-heading font-bold uppercase text-[#5b21b6] tracking-widest border-b border-base-300 pb-4 inline-block">
-          Directions
-        </h1>
+  <main class="w-full bg-black py-4 px-4">
+    <div class="max-w-5xl mx-auto space-y-6">
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <div class="lg:col-span-7 text-left space-y-4 text-white">
+          <div class="border-b border-neutral-800 pb-2">
+            <h2 class="text-2xl font-bold uppercase text-white tracking-widest">
+              Rascals Bar and Grill
+            </h2>
+          </div>
+
+          <div class="space-y-4 text-gray-300 font-light leading-relaxed">
+            <div>
+              <p class="font-bold text-white uppercase tracking-wider mb-1 text-sm">Directions from the North:</p>
+              <p class="text-gray-400 text-[15px] leading-relaxed">
+                Take Highway 41 South to Ballard Rd. (Hwy E) in Appleton. Turn left on Ballard Rd. approximately 2 miles to Wisconsin Avenue. Turn Right on Wisconsin Avenue approximately 2 miles to 702 E. Wisconsin Avenue. Rascals will be on the right just after Kwik Trip.
+              </p>
+            </div>
+
+            <div>
+              <p class="font-bold text-white uppercase tracking-wider mb-1 text-sm">Directions from the South:</p>
+              <p class="text-gray-400 text-[15px] leading-relaxed">
+                Take Highway 41 North to Wisconsin Avenue in Appleton. Turn right on Wisconsin Avenue approximately 5 miles. The addresses will start at 4000 West and go down to 100 West, then start going back up (East). Go to 702 E. Wisconsin Avenue. Rascals will be on the Left just after Fox Communities Credit Union.
+              </p>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-neutral-800">
+            <a 
+              href={`tel:${siteData.phone}`} 
+              class="btn btn-outline border-white text-white hover:bg-white hover:text-black rounded-none tracking-widest uppercase text-xs px-5 py-2 transition-all inline-block"
+            >
+              Call us : {siteData.phone}
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 w-full border border-neutral-800 bg-[#111111] p-3 shadow-xl max-w-sm mx-auto lg:mx-0">
+          <img 
+            src="/images/gallery-2.jpg" 
+            alt="Rascals Bar Interior" 
+            class="w-full h-auto object-contain max-h-[260px] mx-auto"
+            onerror="this.style.display='none'"
+          />
+        </div>
+
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mt-8">
-        
-        <div class="w-full aspect-square md:aspect-[4/3] lg:aspect-square bg-[#111111] border border-base-300 shadow-2xl overflow-hidden relative">
+      <div class="w-full bg-[#111111] border border-neutral-800 p-3 shadow-2xl">
+        <div class="w-full aspect-[21/9] min-h-[260px] md:min-h-[280px] overflow-hidden relative">
           <iframe 
-            class="w-full h-full min-h-[350px]"
-            style="border:0;" 
+            class="w-full h-full border-0 absolute inset-0 bg-neutral-900"
             src="https://maps.google.com/maps?q=Rascals%20Bar%20Appleton%20WI&t=&z=15&ie=UTF8&iwloc=&output=embed"
             allowfullscreen="" 
             loading="lazy" 
             referrerpolicy="no-referrer-when-downgrade"
           ></iframe>
         </div>
-
-        <div class="text-left space-y-8">
-          
-          <div class="border-b border-base-300 pb-4">
-            <h2 class="text-3xl font-bold uppercase text-white tracking-widest mb-2">
-              Rascals bar and grill
-            </h2>
-            <p class="text-[#ec4899] text-lg font-light">
-              702 E. Wisconsin Avenue<br />Appleton, WI 54911
-            </p>
-          </div>
-
-          <div class="space-y-6 text-gray-300 font-light leading-relaxed">
-            <div>
-              <p class="font-bold text-white uppercase tracking-wider mb-2">Directions from the North:</p>
-              <p class="text-gray-400">
-                Take Highway 41 South to Ballard Rd. (Hwy E) in Appleton. Turn left on Ballard Rd. approximately 2 miles to Wisconsin Avenue. Turn Right on Wisconsin Avenue approximately 2 miles to 702 E. Wisconsin Avenue. Rascals will be on the right just after Kwik Trip.
-              </p>
-            </div>
-
-            <div>
-              <p class="font-bold text-white uppercase tracking-wider mb-2">Directions from the South:</p>
-              <p class="text-gray-400">
-                Take Highway 41 North to Wisconsin Avenue in Appleton. Turn right on Wisconsin Avenue approximately 5 miles. The addresses will start at 4000 West and go down to 100 West, then start going back up (East). Go to 702 E. Wisconsin Avenue. Rascals will be on the Left just after Fox Communities Credit Union.
-              </p>
-            </div>
-
-            <div class="pt-4 border-t border-base-300">
-              <p class="font-bold text-white uppercase tracking-wider mb-2">Hours</p>
-              <ul class="text-gray-400 space-y-1">
-                <li>Sunday: 12 PM - 2 AM</li>
-                <li>Monday - Thursday: 5 PM - 2 AM</li>
-                <li>Friday - Saturday: 5 PM - 2:30 AM</li>
-              </ul>
-            </div>
-          </div>
-
-          <div class="pt-4">
-            <a 
-              href={`tel:${siteData.phone}`} 
-              class="btn btn-outline border-white text-white hover:bg-white hover:text-black rounded-none tracking-widest uppercase text-sm px-6"
-            >
-              Call us : {siteData.phone}
-            </a>
-          </div>
-
-        </div>
-
       </div>
 
     </div>

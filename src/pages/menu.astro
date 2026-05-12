@@ -1,26 +1,52 @@
 ---
 // src/pages/menu.astro
 import Layout from '../layouts/Layout.astro';
-import menuData from '../data/menu.json';
 ---
 
-<Layout title="Menu | Rascals Bar">
-  <main class="w-full bg-base-100 pb-16">
-    
-    <div class="text-center py-12 px-4 max-w-2xl mx-auto">
-      <p class="text-xl md:text-2xl font-light text-white">{menuData.intro_text}</p>
-      <p class="text-lg md:text-xl font-bold mt-4 text-[#ec4899]">{menuData.sub_text}</p>
-    </div>
+<Layout title="Menu - Rascals Bar">
+  <main class="w-full bg-black py-8 px-4 text-center">
+    <div class="max-w-4xl mx-auto space-y-10">
+      
+      <div class="bg-[#111111] border border-neutral-800 p-6 md:p-8 shadow-2xl max-w-2xl mx-auto text-center space-y-3">
+        <p class="text-white text-lg md:text-xl font-normal tracking-wide uppercase">
+          Served Monday - Saturday 5-9PM Sunday Noon-9PM
+        </p>
+        <div class="w-12 h-0.5 bg-[#ec4899] mx-auto my-2"></div>
+        <p class="text-gray-300 text-sm md:text-base font-light tracking-wider">
+          Luige's Pizza, Hot Beef Sandwich, and Microwave Popcorn Served Anytime
+        </p>
+      </div>
 
-    <div class="w-full max-w-4xl mx-auto flex flex-col gap-6 px-4">
-      {menuData.menu_images.map((imgSrc, index) => (
-        <img 
-          src={imgSrc} 
-          alt={`Menu Page ${index + 1}`} 
-          class="w-full h-auto border border-base-300 shadow-2xl bg-base-200"
-        />
-      ))}
-    </div>
+      <p class="text-gray-400 text-xs uppercase tracking-widest">
+        Click on either page to view or zoom in full screen
+      </p>
 
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <a 
+          href="/images/menu-1.png" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="block bg-[#111111] border border-neutral-800 p-4 shadow-2xl hover:border-[#ec4899] transition-all duration-300 group"
+        >
+          <h2 class="text-white text-lg font-bold tracking-widest uppercase mb-4 pb-2 border-b border-neutral-800 group-hover:text-[#ec4899] transition-colors">Page 1</h2>
+          <div class="overflow-hidden">
+            <img src="/images/menu-1.png" alt="Rascals Menu Page 1" class="w-full h-auto object-contain mx-auto transition-transform duration-500 group-hover:scale-[1.02]" />
+          </div>
+        </a>
+
+        <a 
+          href="/images/menu-2.png" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="block bg-[#111111] border border-neutral-800 p-4 shadow-2xl hover:border-[#ec4899] transition-all duration-300 group"
+        >
+          <h2 class="text-white text-lg font-bold tracking-widest uppercase mb-4 pb-2 border-b border-neutral-800 group-hover:text-[#ec4899] transition-colors">Page 2</h2>
+          <div class="overflow-hidden">
+            <img src="/images/menu-2.png" alt="Rascals Menu Page 2" class="w-full h-auto object-contain mx-auto transition-transform duration-500 group-hover:scale-[1.02]" />
+          </div>
+        </a>
+      </div>
+
+    </div>
   </main>
 </Layout>

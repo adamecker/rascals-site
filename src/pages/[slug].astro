@@ -3,10 +3,8 @@
 import Layout from '../layouts/Layout.astro';
 import pagesData from '../data/pages.json';
 
-// 1. Tell Astro which URLs to generate based on our JSON file keys
 export function getStaticPaths() {
   const slugs = Object.keys(pagesData); 
-  
   return slugs.map((slug) => {
     return {
       params: { slug },
@@ -15,20 +13,36 @@ export function getStaticPaths() {
   });
 }
 
-// 2. Grab the specific text for whichever page the user clicked
 const { page } = Astro.props;
+const paragraphs = page.content.split('\n\n');
 ---
 
 <Layout title={`${page.title} | Rascals Bar`}>
-  <main class="w-full bg-base-100 py-12 px-4 text-center min-h-[50vh]">
-    <div class="max-w-3xl mx-auto">
-      
-      <h1 class="text-4xl md:text-5xl font-heading font-bold mb-8 uppercase text-primary tracking-wider border-b border-base-300 pb-4 inline-block">
-        {page.title}
-      </h1>
-      
-      <div class="text-secondary text-lg leading-relaxed whitespace-pre-line mx-auto max-w-2xl font-light">
-        {page.content}
+  <main class="w-full bg-black py-16 px-4 min-h-[70vh] flex items-center">
+    <div class="max-w-3xl mx-auto text-center w-full">
+
+      <div class="space-y-6 text-xl font-light leading-relaxed text-white max-w-2xl mx-auto text-left">
+        {paragraphs.map((para) => {
+          if (para.includes('http')) {
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            const parts = para.split(urlRegex);
+            return (
+              <p>
+                {parts.map((part) => {
+                  if (part.match(urlRegex)) {
+                    return (
+                      <a href={part} target="_blank" rel="noopener noreferrer" class="text-[#ec4899] hover:underline break-all block mt-4 font-bold tracking-widest uppercase text-base">
+                        {part}
+                      </a>
+                    );
+                  }
+                  return part;
+                })}
+              </p>
+            );
+          }
+          return <p class="whitespace-pre-line">{para}</p>;
+        })}
       </div>
 
     </div>
