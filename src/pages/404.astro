@@ -1,0 +1,24 @@
+---
+// src/pages/404.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Page Not Found - Rascals Bar">
+  <main class="w-full bg-black py-32 px-4 text-center min-h-[75vh] flex flex-col items-center justify-center space-y-6">
+    <h1 class="text-7xl md:text-9xl font-heading font-bold text-[#ec4899] tracking-widest drop-shadow-lg">
+      404
+    </h1>
+    <p class="text-xl md:text-2xl text-white font-light uppercase tracking-wider">
+      Looks like your glass is empty.
+    </p>
+    <p class="text-gray-400 font-light">
+      The page you're looking for doesn't exist or has been moved.
+    </p>
+    <a 
+      href="/" 
+      class="btn bg-white hover:bg-[#ec4899] text-black hover:text-white border-none rounded-none tracking-widest uppercase text-sm px-8 py-3.5 mt-8 transition-all shadow-lg"
+    >
+      Return Home
+    </a>
+  </main>
+</Layout>
