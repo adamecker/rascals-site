@@ -4,7 +4,7 @@ import Layout from '../layouts/Layout.astro';
 import pagesData from '../data/pages.json';
 
 export function getStaticPaths() {
-  const slugs = Object.keys(pagesData); 
+  const slugs = Object.keys(pagesData);
   return slugs.map((slug) => {
     return {
       params: { slug },
@@ -18,10 +18,10 @@ const paragraphs = page.content.split('\n\n');
 ---
 
 <Layout title={`${page.title} | Rascals Bar`}>
-  <main class="w-full bg-black py-16 px-4 min-h-[70vh] flex items-center">
-    <div class="max-w-3xl mx-auto text-center w-full">
+  <main class="w-full bg-black py-12 md:py-16 px-4">
+    <div class="max-w-3xl mx-auto w-full">
 
-      <div class="space-y-6 text-xl font-light leading-relaxed text-white max-w-2xl mx-auto text-left">
+      <div class="space-y-6 text-lg md:text-xl font-light leading-relaxed text-gray-200">
         {paragraphs.map((para) => {
           if (para.includes('http')) {
             const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -31,7 +31,7 @@ const paragraphs = page.content.split('\n\n');
                 {parts.map((part) => {
                   if (part.match(urlRegex)) {
                     return (
-                      <a href={part} target="_blank" rel="noopener noreferrer" class="text-[#ec4899] hover:underline break-all block mt-4 font-bold tracking-widest uppercase text-base">
+                      <a href={part} target="_blank" rel="noopener noreferrer" class="text-[#ec4899] hover:text-white transition-colors hover:underline break-all block mt-2 font-bold tracking-widest uppercase text-sm md:text-base">
                         {part}
                       </a>
                     );
