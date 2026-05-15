@@ -32,15 +32,14 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          # Pass the issue body as a variable to avoid shell quote errors
+          ISSUE_TEXT: ${{ github.event.issue.body }}
         run: |
-          # Configure git so aider can commit
           git config --global user.name "Gemini Assistant"
           git config --global user.email "assistant@rascals.bar"
           
-          # Run aider to process the issue
-          # --yes: don't ask for confirmation
-          # --message: tell it what to do (the issue body)
-          aider --model gemini/gemini-1.5-flash --yes --message "${{ github.event.issue.body }}"
+          # We use "$ISSUE_TEXT" here which is now safe from quote nesting
+          aider --model gemini/gemini-1.5-flash --yes --message "$ISSUE_TEXT"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
