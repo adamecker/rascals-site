@@ -39,7 +39,7 @@ jobs:
           
           # We "prime" Aider by telling it exactly which files might contain the answer.
           # This prevents it from just editing the .gitignore file.
-          aider --model gemini/gemini-1.5-flash \
+          aider --model gemini/gemini-1.5-flash-latest \
                 --yes \
                 --message "$ISSUE_TEXT" \
                 src/data/site.json \
