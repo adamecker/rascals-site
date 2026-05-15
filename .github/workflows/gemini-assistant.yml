@@ -28,6 +28,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install aider-chat
 
+      - name: List Available Models
+        run: |
+          curl https://generativelanguage.googleapis.com/v1beta/models?key=${{ secrets.GEMINI_API_KEY }}
+
       - name: Run Aider
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -37,15 +41,11 @@ jobs:
           git config --global user.name "Gemini Assistant"
           git config --global user.email "assistant@rascals.bar"
           
-          # We "prime" Aider by telling it exactly which files might contain the answer.
-          # This prevents it from just editing the .gitignore file.
-          aider --model gemini/gemini-1.5-flash-latest \
+          # We use 'gemini/gemini-2.0-flash' which is the current standard.
+          # If that still fails, the fallback is 'gemini/gemini-1.5-flash'
+          aider --model gemini/gemini-2.0-flash \
                 --yes \
-                --message "$ISSUE_TEXT" \
-                src/data/site.json \
-                src/pages/index.astro \
-                src/pages/specials.astro \
-                src/data/pages.json
+                --message "$ISSUE_TEXT"
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
