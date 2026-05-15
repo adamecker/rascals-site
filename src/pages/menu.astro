@@ -4,47 +4,51 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Menu - Rascals Bar">
-  <main class="w-full bg-black py-8 px-4 text-center">
-    <div class="max-w-4xl mx-auto space-y-10">
+  <main class="w-full bg-black py-12 md:py-16 px-4 text-center">
+    <div class="max-w-5xl mx-auto space-y-8">
       
-      <div class="bg-[#111111] border border-neutral-800 p-6 md:p-8 shadow-2xl max-w-2xl mx-auto text-center space-y-3">
-        <p class="text-white text-lg md:text-xl font-normal tracking-wide uppercase">
-          Served Monday - Saturday 5-9PM Sunday Noon-9PM
-        </p>
-        <div class="w-12 h-0.5 bg-[#ec4899] mx-auto my-2"></div>
-    
-        <p class="text-gray-300 text-sm md:text-base font-light tracking-wider">
-          Pizza, Hot Beef, Split Pea Soup, Chili and Microwave Popcorn Served Anytime
-        </p>
-      </div>
-
-      <p class="text-gray-400 text-xs uppercase tracking-widest">
-        Tap on either page to view in full screen
-      </p>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="space-y-6">
         
-        <button 
-          data-index="0"
-          class="menu-trigger w-full h-full flex flex-col bg-[#111111] border border-neutral-800 p-4 shadow-2xl hover:border-[#ec4899] transition-all duration-300 group cursor-pointer"
-        >
-          <h2 class="text-white text-lg font-bold tracking-widest uppercase w-full text-center mb-4 pb-2 border-b border-neutral-800 group-hover:text-[#ec4899] transition-colors">Page 1</h2>
-          <div class="overflow-hidden flex-grow flex items-center justify-center w-full">
-            <img src="/images/menu-1.png" alt="Rascals Menu Page 1" class="w-full h-auto object-contain mx-auto transition-transform duration-500 group-hover:scale-[1.02]" />
-          </div>
-        </button>
+        <div class="space-y-2">
+          <h3 class="text-[#ec4899] text-xs md:text-sm font-bold uppercase tracking-[0.2em] opacity-90">Served Anytime</h3>
+          <p class="text-white text-base md:text-lg font-light tracking-wider max-w-2xl mx-auto">
+            Pizza, Hot Beef, Split Pea Soup, Chili & Microwave Popcorn
+          </p>
+        </div>
 
-        <button 
-          data-index="1"
-          class="menu-trigger w-full h-full flex flex-col bg-[#111111] border border-neutral-800 p-4 shadow-2xl hover:border-[#ec4899] transition-all duration-300 group cursor-pointer"
-        >
-          <h2 class="text-white text-lg font-bold tracking-widest uppercase w-full text-center mb-4 pb-2 border-b border-neutral-800 group-hover:text-[#ec4899] transition-colors">Page 2</h2>
-          <div class="overflow-hidden flex-grow flex items-center justify-center w-full">
-            <img src="/images/menu-2.png" alt="Rascals Menu Page 2" class="w-full h-auto object-contain mx-auto transition-transform duration-500 group-hover:scale-[1.02]" />
-          </div>
-        </button>
+        <div class="w-24 h-[1px] bg-gradient-to-r from-transparent via-neutral-600 to-transparent mx-auto my-2"></div>
+
+        <div class="space-y-2">
+          <h3 class="text-[#ec4899] text-xs md:text-sm font-bold uppercase tracking-[0.2em] opacity-90">Full Menu Hours</h3>
+          <p class="text-gray-300 text-base md:text-lg font-normal tracking-wide uppercase">
+            Monday - Saturday 5-9PM <span class="text-[#ec4899] mx-3 opacity-60">|</span> Sunday Noon-9PM
+          </p>
+        </div>
 
       </div>
+
+      <div class="space-y-4 pt-2">
+        <p class="text-gray-500 text-xs uppercase tracking-widest">Tap a page to view full screen</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+          
+          <button 
+            data-index="0"
+            class="menu-trigger w-full block bg-transparent transition-all duration-500 group cursor-pointer overflow-hidden rounded-md hover:shadow-[0_0_40px_rgba(236,72,153,0.15)] focus:outline-none"
+          >
+            <img src="/images/menu-1.png" alt="Rascals Menu Page 1" class="w-full h-auto object-contain mx-auto transition-all duration-700 group-hover:scale-[1.02] opacity-90 group-hover:opacity-100" />
+          </button>
+
+          <button 
+            data-index="1"
+            class="menu-trigger w-full block bg-transparent transition-all duration-500 group cursor-pointer overflow-hidden rounded-md hover:shadow-[0_0_40px_rgba(236,72,153,0.15)] focus:outline-none"
+          >
+            <img src="/images/menu-2.png" alt="Rascals Menu Page 2" class="w-full h-auto object-contain mx-auto transition-all duration-700 group-hover:scale-[1.02] opacity-90 group-hover:opacity-100" />
+          </button>
+
+        </div>
+      </div>
+
     </div>
   </main>
 
