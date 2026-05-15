@@ -1,0 +1,40 @@
+name: Convert Menu PDFs to PNGs
+
+# This tells GitHub to only run this script when a PDF is pushed to the images folder
+on:
+  push:
+    paths:
+      - 'public/images/*.pdf'
+
+jobs:
+  convert-pdfs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Allows the bot to push the new images back to the repo
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Install PDF utilities
+        run: sudo apt-get update && sudo apt-get install -y poppler-utils
+
+      - name: Convert PDFs to PNGs
+        run: |
+          # Check if menu-1.pdf exists, then convert it
+          if [ -f "public/images/menu-1.pdf" ]; then
+            pdftoppm public/images/menu-1.pdf public/images/menu-1 -png -singlefile -r 300
+            echo "Converted menu-1"
+          fi
+          
+          # Check if menu-2.pdf exists, then convert it
+          if [ -f "public/images/menu-2.pdf" ]; then
+            pdftoppm public/images/menu-2.pdf public/images/menu-2 -png -singlefile -r 300
+            echo "Converted menu-2"
+          fi
+
+      - name: Commit and Push new PNGs
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🤖 Auto-converted Menu PDFs to high-res PNGs"
+          file_pattern: 'public/images/*.png'
