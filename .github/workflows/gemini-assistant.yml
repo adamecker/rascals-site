@@ -32,14 +32,20 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          # Pass the issue body as a variable to avoid shell quote errors
           ISSUE_TEXT: ${{ github.event.issue.body }}
         run: |
           git config --global user.name "Gemini Assistant"
           git config --global user.email "assistant@rascals.bar"
           
-          # We use "$ISSUE_TEXT" here which is now safe from quote nesting
-          aider --model gemini/gemini-1.5-flash --yes --message "$ISSUE_TEXT"
+          # We "prime" Aider by telling it exactly which files might contain the answer.
+          # This prevents it from just editing the .gitignore file.
+          aider --model gemini/gemini-1.5-flash \
+                --yes \
+                --message "$ISSUE_TEXT" \
+                src/data/site.json \
+                src/pages/index.astro \
+                src/pages/specials.astro \
+                src/data/pages.json
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v6
