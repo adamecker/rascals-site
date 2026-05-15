@@ -1,16 +1,20 @@
 name: Convert Menu PDFs to PNGs
 
-# This tells GitHub to only run this script when a PDF is pushed to the images folder
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'public/images/*.pdf'
+
+# This silences the Node 20 warning and future-proofs the action
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   convert-pdfs:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Allows the bot to push the new images back to the repo
+      contents: write 
 
     steps:
       - name: Checkout Repository
@@ -21,16 +25,12 @@ jobs:
 
       - name: Convert PDFs to PNGs
         run: |
-          # Check if menu-1.pdf exists, then convert it
           if [ -f "public/images/menu-1.pdf" ]; then
             pdftoppm public/images/menu-1.pdf public/images/menu-1 -png -singlefile -r 300
-            echo "Converted menu-1"
           fi
           
-          # Check if menu-2.pdf exists, then convert it
           if [ -f "public/images/menu-2.pdf" ]; then
             pdftoppm public/images/menu-2.pdf public/images/menu-2 -png -singlefile -r 300
-            echo "Converted menu-2"
           fi
 
       - name: Commit and Push new PNGs
