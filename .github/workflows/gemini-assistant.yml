@@ -42,7 +42,6 @@ jobs:
           aider --model gemini/gemini-2.5-pro \
                 --editor-model gemini/gemini-2.5-flash \
                 --yes \
-                --auto-repo-map \
                 --message "$ISSUE_TEXT"
 
       - name: Create Pull Request
