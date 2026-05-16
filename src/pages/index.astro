@@ -1,6 +1,61 @@
 ---
 // src/pages/index.astro
 import Layout from '../layouts/Layout.astro';
+
+const specialsData = [
+  {
+    title: "PULL-TAB HAPPY HOUR",
+    description: "MONDAY-THURSDAY 5PM-8PM"
+  },
+  {
+    title: "$2 OFF DOUBLE MIXER",
+    description: "MONDAY'S"
+  },
+  {
+    title: "LADIES NIGHT",
+    description: "TUESDAY"
+  },
+  {
+    title: "$3.00 PINTS OF DOMESTIC BEER",
+    description: "TUESDAY & THURSDAY"
+  },
+  {
+    title: "$4.00 RAIL PINTS FOR THE LADIES",
+    description: "TUESDAY"
+  },
+  {
+    title: "ALL RAIL DRINKS $0.50 OFF",
+    description: "WEDNESDAY ALL NIGHT"
+  },
+  {
+    title: "FISH FRY",
+    description: "FRIDAY 5PM-9PM"
+  },
+  {
+    title: "DOMESTIC TAP BEER/RAIL LIQUOR $12",
+    description: "SATURDAY"
+  },
+  {
+    title: "BOTTLE BEER/NON-RAIL LIQUOR $20",
+    description: "SATURDAY (NO SHOTS)"
+  },
+  {
+    title: "BEER/LIQUOR BUST",
+    description: "SATURDAY 10PM-MIDNIGHT"
+  },
+  {
+    title: "BEER BUST $15",
+    description: "SUNDAY 2PM-7PM"
+  },
+  {
+    title: "FREE FRIES WITH SANDWICH PURCHASE",
+    description: "SUNDAY"
+  },
+  {
+    title: "2-4-1 POWER HOUR",
+    description: "AT MIDNIGHT MON-THU"
+  }
+];
 ---
 
 <Layout title="Rascals Bar">
@@ -10,20 +65,20 @@ import Layout from '../layouts/Layout.astro';
       <div class="border border-neutral-800 px-6 py-8 text-center bg-[#111111] shadow-2xl min-h-[200px] flex flex-col justify-between relative overflow-hidden">
         <div></div>
         <div class="relative min-h-[100px] flex items-center justify-center">
-          <div id="slide-1" class="transition-all duration-700 opacity-100 transform translate-x-0 w-full">
-            <h2 class="text-2xl md:text-3xl font-heading font-bold mb-2 text-[#ec4899] uppercase tracking-widest">
-              PULL-TAB HAPPY HOUR
-            </h2>
-            <div class="w-12 h-0.5 bg-white mx-auto my-3 opacity-20"></div>
-            <p class="text-lg md:text-xl font-light text-white leading-relaxed uppercase tracking-wider">
-              MONDAY-THURSDAY 5PM-8PM
-            </p>
-          </div>
-          <div id="slide-2" class="transition-all duration-700 opacity-0 absolute inset-0 flex flex-col justify-center px-4 translate-x-full pointer-events-none text-center w-full">
-            <h2 class="text-2xl md:text-3xl font-heading font-bold text-[#ec4899] uppercase tracking-widest leading-relaxed">
-              $2 Off Double Mixer Monday's
-            </h2>
-          </div>
+          {specialsData.map((special, index) => (
+            <div id={`slide-${index + 1}`} class={`absolute inset-0 flex flex-col justify-center px-4 text-center w-full transition-all duration-700 ${index === 0 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full pointer-events-none'}`}>
+              <h2 class="text-2xl md:text-3xl font-heading font-bold mb-2 text-[#ec4899] uppercase tracking-widest leading-relaxed">
+                {special.title}
+              </h2>
+              <div class="w-12 h-0.5 bg-white mx-auto my-3 opacity-20"></div>
+              <p class="text-lg md:text-xl font-light text-white leading-relaxed uppercase tracking-wider">
+                {special.description}
+              </p>
+              <a href="/specials" class="mt-4 text-[#ec4899] hover:underline uppercase tracking-widest text-sm font-bold">
+                VIEW ALL SPECIALS
+              </a>
+            </div>
+          ))}
         </div>
         <div class="flex items-center justify-center gap-4 mt-6 z-10">
           <button id="prev-btn" class="w-7 h-7 flex items-center justify-center border border-gray-700 hover:border-white transition-colors duration-300 focus:outline-none" aria-label="Previous">
@@ -31,9 +86,10 @@ import Layout from '../layouts/Layout.astro';
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
           </button>
-          <div class="flex gap-1.5">
-            <button id="dot-1" class="w-2 h-2 bg-white rounded-full transition-opacity duration-300 opacity-100" aria-label="Slide 1"></button>
-            <button id="dot-2" class="w-2 h-2 bg-white rounded-full transition-opacity duration-300 opacity-30" aria-label="Slide 2"></button>
+          <div class="flex gap-1.5" id="carousel-dots">
+            {specialsData.map((_, index) => (
+              <button id={`dot-${index + 1}`} class={`w-2 h-2 bg-white rounded-full transition-opacity duration-300 ${index === 0 ? 'opacity-100' : 'opacity-30'}`} aria-label={`Slide ${index + 1}`}></button>
+            ))}
           </div>
           <button id="next-btn" class="w-7 h-7 flex items-center justify-center border border-gray-700 hover:border-white transition-colors duration-300 focus:outline-none" aria-label="Next">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 text-white">
@@ -45,58 +101,71 @@ import Layout from '../layouts/Layout.astro';
     </section>
 
     <section class="pb-16 px-4 max-w-4xl mx-auto">
-      <div class="text-center mb-4">
-        <h2 class="text-2xl md:text-3xl font-heading font-bold uppercase text-white tracking-widest">
-          View Gallery
-        </h2>
-      </div>
-      <a href="/gallery" class="block border border-neutral-800 shadow-2xl overflow-hidden hover:border-[#ec4899] transition-colors duration-300">
-        <img 
-          src="/images/gallery-1.jpeg" 
-          alt="Rascals Bar Atmosphere" 
-          class="w-full h-auto max-h-[500px] object-contain mx-auto"
+      <a href="/gallery" class="block border border-neutral-800 shadow-2xl overflow-hidden hover:border-[#ec4899] transition-colors duration-300 relative group aspect-video">
+        <img
+          src="/images/gallery-1.jpeg"
+          alt="Rascals Bar Atmosphere"
+          class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100"
           onerror="this.style.display='none'"
         />
+        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
+          <span class="text-[#ec4899] text-4xl drop-shadow-lg">⊕</span>
+        </div>
       </a>
     </section>
 
   </main>
 </Layout>
 
-<script>
-  let currentSlide = 1;
-  const slide1 = document.getElementById('slide-1');
-  const slide2 = document.getElementById('slide-2');
-  const dot1 = document.getElementById('dot-1');
-  const dot2 = document.getElementById('dot-2');
-  const prevBtn = document.getElementById('prev-btn');
-  const nextBtn = document.getElementById('next-btn');
+<script define:vars={{ specialsData }}>
+  let currentSlide = 0; // 0-indexed
+  const slides = [];
+  const dots = [];
 
-  function updateCarousel(targetSlide: number) {
-    if (!slide1 || !slide2 || !dot1 || !dot2) return;
-    if (targetSlide === 2) {
-      slide1.classList.add('opacity-0', '-translate-x-full');
-      slide1.classList.remove('opacity-100', 'translate-x-0');
-      slide2.classList.add('opacity-100', 'translate-x-0');
-      slide2.classList.remove('opacity-0', 'translate-x-full', 'pointer-events-none');
-      dot1.classList.replace('opacity-100', 'opacity-30');
-      dot2.classList.replace('opacity-30', 'opacity-100');
-      currentSlide = 2;
-    } else {
-      slide1.classList.add('opacity-100', 'translate-x-0');
-      slide1.classList.remove('opacity-0', '-translate-x-full');
-      slide2.classList.add('opacity-0', 'translate-x-full', 'pointer-events-none');
-      slide2.classList.remove('opacity-100', 'translate-x-0');
-      dot1.classList.replace('opacity-30', 'opacity-100');
-      dot2.classList.replace('opacity-100', 'opacity-30');
-      currentSlide = 1;
-    }
+  // Populate slides and dots arrays
+  for (let i = 0; i < specialsData.length; i++) {
+    const slide = document.getElementById(`slide-${i + 1}`);
+    const dot = document.getElementById(`dot-${i + 1}`);
+    if (slide) slides.push(slide);
+    if (dot) dots.push(dot);
   }
 
-  prevBtn?.addEventListener('click', () => updateCarousel(currentSlide === 1 ? 2 : 1));
-  nextBtn?.addEventListener('click', () => updateCarousel(currentSlide === 1 ? 2 : 1));
-  dot1?.addEventListener('click', () => updateCarousel(1));
-  dot2?.addEventListener('click', () => updateCarousel(2));
+  function updateCarousel(targetSlideIndex) {
+    if (slides.length === 0 || dots.length === 0) return;
 
-  setInterval(() => updateCarousel(currentSlide === 1 ? 2 : 1), 4000);
+    // Reset current slide
+    slides[currentSlide].classList.remove('opacity-100', 'translate-x-0');
+    slides[currentSlide].classList.add('opacity-0', 'pointer-events-none', currentSlide < targetSlideIndex ? '-translate-x-full' : 'translate-x-full');
+    dots[currentSlide].classList.replace('opacity-100', 'opacity-30');
+
+    // Activate target slide
+    slides[targetSlideIndex].classList.remove('opacity-0', '-translate-x-full', 'translate-x-full', 'pointer-events-none');
+    slides[targetSlideIndex].classList.add('opacity-100', 'translate-x-0');
+    dots[targetSlideIndex].classList.replace('opacity-30', 'opacity-100');
+
+    currentSlide = targetSlideIndex;
+  }
+
+  // Event Listeners
+  document.getElementById('prev-btn')?.addEventListener('click', () => {
+    const newIndex = (currentSlide - 1 + slides.length) % slides.length;
+    updateCarousel(newIndex);
+  });
+
+  document.getElementById('next-btn')?.addEventListener('click', () => {
+    const newIndex = (currentSlide + 1) % slides.length;
+    updateCarousel(newIndex);
+  });
+
+  dots.forEach((dot, index) => {
+    dot.addEventListener('click', () => updateCarousel(index));
+  });
+
+  // Autoplay
+  if (slides.length > 1) { // Only autoplay if there's more than one slide
+    setInterval(() => {
+      const newIndex = (currentSlide + 1) % slides.length;
+      updateCarousel(newIndex);
+    }, 4000);
+  }
 </script>
