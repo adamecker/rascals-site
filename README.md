@@ -17,8 +17,14 @@ If you need to change text, update hours, rewrite descriptions, or adjust detail
 4. Look on the right side of the page layout for the **Labels** section. Click the gear icon ⚙️ and select the label named `assistant`.
 5. Click the green **Submit new issue** button.
 
-### How it works behind the scenes:
-The digital assistant wakes up automatically, maps the whole website layout, locates the correct files, writes the code updates, and wraps the updates into a "Review Package" (Pull Request) for the site administrator. Once approved, the changes display live on the website within two minutes.
+### 👀 Previewing & Approving Your Changes
+The Assistant will automatically map the website, locate the correct files, and wrap the code updates into a "Review Package" (called a Pull Request). **Changes do not go live automatically!** You get to test them first:
+
+1. Wait about 1 to 2 minutes after submitting your request.
+2. An automated comment will appear in your request thread from **Cloudflare Pages**.
+3. Click the temporary **Preview URL** link in that comment to safely view a live test version of the website with your new changes applied.
+4. **Need to make an adjustment?** If the preview isn't quite right, do not close the request! Simply type a new comment at the bottom of your original request explaining the tweak (e.g., *"Actually, make the text blue instead of pink"*). The Assistant will wake back up, fix the code, and update the preview link.
+5. If the preview looks perfect, go back to the GitHub page and click the green **Merge Pull Request** button to officially publish the updates to the live website!
 
 ---
 
@@ -28,7 +34,7 @@ The website layout automatically reads your gallery files. You do not need to ed
 
 1. **[Open the Gallery Upload Folder Link](https://github.com/adamecker/rascals-site/tree/main/public/images)**
 2. Click the **Add file** button at the top right, then select **Upload files**.
-3. Drag your new photos from your phone or computer directly onto the screen block.
+3. Drag your new photos from your phone or computer directly onto the screen block. **Important Naming Rule:** Ensure your files are named sequentially using the `gallery-N.jpg` format (e.g., `gallery-31.jpg`, `gallery-32.jpg`) so they display in the correct order.
 4. Click the green **Commit changes** button at the bottom to save.
 
 ### The Automation Rule:
