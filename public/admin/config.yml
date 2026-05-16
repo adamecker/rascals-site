@@ -20,9 +20,6 @@ collections:
           - { label: "Phone", name: "phone", widget: "string" }
           - { label: "Address", name: "address", widget: "string" }
           - { label: "Hours", name: "hours", widget: "list" }
-          - { label: "Happy Hour Title", name: "happy_hour_title", widget: "string" }
-          - { label: "Happy Hour Time", name: "happy_hour_time", widget: "string" }
-          - { label: "Happy Hour Special Text", name: "happy_hour_special", widget: "string" }
 
       # 2. The Menu (Text + Image Uploads)
       - label: "Menu Page"

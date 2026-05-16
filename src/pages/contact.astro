@@ -1,6 +1,7 @@
 ---
 // src/pages/contact.astro
 import Layout from '../layouts/Layout.astro';
+import siteData from '../data/site.json';
 ---
 
 <Layout title="Contact - Rascals Bar">
@@ -8,7 +9,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="max-w-2xl mx-auto">
       
       <form 
-        action="https://formspree.io/f/mvzllzdo" 
+        action={siteData.formspree_endpoint} 
         method="POST" 
         class="bg-cover bg-center border border-neutral-800 p-6 md:p-8 text-left shadow-2xl relative"
         style="background-image: url('/images/contact.png');"

@@ -1,0 +1,72 @@
+{
+  "happyHour": {
+    "title": "PULL-TAB HAPPY HOUR",
+    "subtitle": "MONDAY-THURSDAY 5PM-8PM"
+  },
+  "schedule": [
+    {
+      "day": "Monday",
+      "items": [
+        "Pull-Tab Happy Hour 5-8 pm",
+        "$2 Off Double Mixers"
+      ],
+      "highlight": "2-4-1 Power Hour at Midnight",
+      "sliderText": "$2 Off Double Mixers"
+    },
+    {
+      "day": "Tuesday",
+      "items": [
+        "Ladies Night",
+        "Pull-Tab Happy Hour 5-8 pm",
+        "$3.00 Pints of Domestic Beer",
+        "$4.00 Rail Pints for the Ladies"
+      ],
+      "highlight": "2-4-1 Power Hour at Midnight",
+      "sliderText": "Ladies Night & $3 Domestic Pints"
+    },
+    {
+      "day": "Wednesday",
+      "items": [
+        "Pull-Tab Happy Hour 5-8 pm",
+        "All Rail Drinks $0.50 off all night"
+      ],
+      "highlight": "2-4-1 Power Hour at Midnight",
+      "sliderText": "All Rail Drinks $0.50 off all night"
+    },
+    {
+      "day": "Thursday",
+      "items": [
+        "Pull-Tab Happy Hour 5-8 pm",
+        "$3.00 Pints of Domestic Beer"
+      ],
+      "highlight": "2-4-1 Power Hour at Midnight",
+      "sliderText": "$3.00 Pints of Domestic Beer"
+    },
+    {
+      "day": "Friday",
+      "items": [
+        "Fish Fry from 5-9 pm"
+      ],
+      "highlight": "",
+      "sliderText": "Fish Fry from 5-9 pm"
+    },
+    {
+      "day": "Saturday",
+      "items": [
+        "Domestic tap beer/Rail Liquor $12",
+        "Bottle Beer/Non-Rail Liquor $20 <span class=\"text-xs text-gray-500 uppercase tracking-widest\">(No Shots)</span>"
+      ],
+      "highlight": "BEER/LIQUOR BUST FROM 10-MIDNIGHT",
+      "sliderText": "Beer/Liquor Bust from 10-Midnight"
+    },
+    {
+      "day": "Sunday",
+      "items": [
+        "Beer Bust from 2-7 pm for $15",
+        "Free fries with sandwich purchase"
+      ],
+      "highlight": "",
+      "sliderText": "Beer Bust from 2-7 pm for $15"
+    }
+  ]
+}

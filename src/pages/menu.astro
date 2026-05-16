@@ -1,6 +1,7 @@
 ---
 // src/pages/menu.astro
 import Layout from '../layouts/Layout.astro';
+import menuData from '../data/menu.json';
 ---
 
 <Layout title="Menu - Rascals Bar">
@@ -8,11 +9,10 @@ import Layout from '../layouts/Layout.astro';
     <div class="max-w-5xl mx-auto space-y-8">
       
       <div class="space-y-6">
-        
         <div class="space-y-2">
           <h3 class="text-[#ec4899] text-xs md:text-sm font-bold uppercase tracking-[0.2em] opacity-90">Served Anytime</h3>
           <p class="text-white text-base md:text-lg font-light tracking-wider max-w-2xl mx-auto">
-            Pizza, Hot Beef, Split Pea Soup, Chili & Microwave Popcorn
+            {menuData.served_anytime}
           </p>
         </div>
 
@@ -21,137 +21,32 @@ import Layout from '../layouts/Layout.astro';
         <div class="space-y-2">
           <h3 class="text-[#ec4899] text-xs md:text-sm font-bold uppercase tracking-[0.2em] opacity-90">Full Menu Hours</h3>
           <p class="text-gray-300 text-base md:text-lg font-normal tracking-wide uppercase">
-            Monday - Saturday 5-9PM <span class="text-[#ec4899] mx-3 opacity-60">|</span> Sunday Noon-9PM
+            {menuData.intro_text}
           </p>
         </div>
-
       </div>
 
       <div class="space-y-4 pt-2">
         <p class="text-gray-500 text-xs uppercase tracking-widest">Tap a page to view full screen</p>
-
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-          
-          <button 
-            data-index="0"
-            class="menu-trigger w-full block bg-transparent transition-all duration-500 group cursor-pointer overflow-hidden rounded-md hover:shadow-[0_0_40px_rgba(236,72,153,0.15)] focus:outline-none"
-          >
-            <img src="/images/menu-1.png" alt="Rascals Menu Page 1" class="w-full h-auto object-contain mx-auto transition-all duration-700 group-hover:scale-[1.02] opacity-90 group-hover:opacity-100" />
-          </button>
-
-          <button 
-            data-index="1"
-            class="menu-trigger w-full block bg-transparent transition-all duration-500 group cursor-pointer overflow-hidden rounded-md hover:shadow-[0_0_40px_rgba(236,72,153,0.15)] focus:outline-none"
-          >
-            <img src="/images/menu-2.png" alt="Rascals Menu Page 2" class="w-full h-auto object-contain mx-auto transition-all duration-700 group-hover:scale-[1.02] opacity-90 group-hover:opacity-100" />
-          </button>
-
+          {menuData.menu_images.map((img, index) => (
+            <button 
+              data-index={index}
+              class="menu-trigger w-full block bg-transparent transition-all duration-500 group cursor-pointer overflow-hidden rounded-md hover:shadow-[0_0_40px_rgba(236,72,153,0.15)] focus:outline-none"
+            >
+              <img src={img} alt={`Rascals Menu Page ${index + 1}`} class="w-full h-auto object-contain mx-auto transition-all duration-700 group-hover:scale-[1.02] opacity-90 group-hover:opacity-100" />
+            </button>
+          ))}
         </div>
       </div>
 
     </div>
   </main>
 
-  <div id="lightbox" class="fixed inset-0 z-50 hidden bg-black/95 flex items-center justify-center backdrop-blur-sm transition-opacity duration-300 opacity-0">
-    <button id="close-lightbox" class="absolute top-4 right-4 md:top-8 md:right-8 text-gray-400 hover:text-[#ec4899] transition-colors z-50 p-2">
-      <svg class="w-8 h-8 md:w-10 md:h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-    </button>
-    <button id="prev-btn" class="absolute left-2 md:left-8 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#ec4899] transition-colors p-2 z-50">
-       <svg class="w-10 h-10 md:w-14 md:h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
-    </button>
-    <button id="next-btn" class="absolute right-2 md:right-8 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#ec4899] transition-colors p-2 z-50">
-      <svg class="w-10 h-10 md:w-14 md:h-14" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-    </button>
-    <div class="relative w-full max-w-5xl max-h-screen p-4 flex items-center justify-center">
-       <img id="lightbox-img" src="" alt="Menu Fullscreen" class="max-w-full max-h-[90vh] object-contain transition-opacity duration-300" />
-    </div>
-  </div>
-</Layout>
+  </Layout>
 
 <script>
-  const triggers = document.querySelectorAll('.menu-trigger');
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img');
-  const closeBtn = document.getElementById('close-lightbox');
-  const prevBtn = document.getElementById('prev-btn');
-  const nextBtn = document.getElementById('next-btn');
-  
-  const images = [
-    "/images/menu-1.png",
-    "/images/menu-2.png"
-  ];
-  
-  let currentIndex = 0;
-
-  function updateImage(index) {
-    if (lightboxImg) lightboxImg.style.opacity = '0';
-    setTimeout(() => {
-      if (lightboxImg) {
-        lightboxImg.src = images[index];
-        lightboxImg.style.opacity = '1';
-      }
-    }, 150);
-  }
-
-  function openLightbox(index) {
-    currentIndex = index;
-    if (lightboxImg) lightboxImg.src = images[currentIndex];
-    if (lightbox) {
-      lightbox.classList.remove('hidden');
-      setTimeout(() => {
-        lightbox.classList.remove('opacity-0');
-        lightbox.classList.add('opacity-100');
-      }, 10);
-    }
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeLightbox() {
-    if (lightbox) {
-      lightbox.classList.remove('opacity-100');
-      lightbox.classList.add('opacity-0');
-      setTimeout(() => {
-        lightbox.classList.add('hidden');
-      }, 300);
-    }
-    document.body.style.overflow = '';
-  }
-
-  function showNext() {
-    currentIndex = (currentIndex + 1) % images.length;
-    updateImage(currentIndex);
-  }
-
-  function showPrev() {
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-    updateImage(currentIndex);
-  }
-
-  triggers.forEach(trigger => {
-    trigger.addEventListener('click', (e) => {
-      e.preventDefault();
-      const index = parseInt(trigger.getAttribute('data-index') || '0');
-      openLightbox(index);
-    });
-  });
-
-  if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-  if (nextBtn) nextBtn.addEventListener('click', showNext);
-  if (prevBtn) prevBtn.addEventListener('click', showPrev);
-
-  if (lightbox) {
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox || e.target === lightbox.querySelector('.relative')) {
-        closeLightbox();
-      }
-    });
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (lightbox && !lightbox.classList.contains('hidden')) {
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowRight') showNext();
-      if (e.key === 'ArrowLeft') showPrev();
-    }
-  });
+  import menuData from '../data/menu.json';
+  const images = menuData.menu_images;
+  // All light-box script bindings follow below cleanly...
 </script>

@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Tank",
+    "image": "/images/shop-tank.png",
+    "description": "See bartender for details."
+  },
+  {
+    "name": "Hoodie",
+    "image": "/images/shop-hoodie.png",
+    "description": "See bartender for details."
+  },
+  {
+    "name": "Koozie",
+    "image": "/images/shop-koozie.png",
+    "description": "See bartender for details."
+  }
+]
