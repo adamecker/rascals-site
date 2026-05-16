@@ -28,10 +28,6 @@ jobs:
           python -m pip install --upgrade pip
           pip install aider-chat
 
-      - name: List Available Models
-        run: |
-          curl https://generativelanguage.googleapis.com/v1beta/models?key=${{ secrets.GEMINI_API_KEY }}
-
       - name: Run Aider
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
@@ -41,10 +37,12 @@ jobs:
           git config --global user.name "Gemini Assistant"
           git config --global user.email "assistant@rascals.bar"
           
-          # We use 'gemini/gemini-2.0-flash' which is the current standard.
-          # If that still fails, the fallback is 'gemini/gemini-1.5-flash'
-          aider --model gemini/gemini-2.0-flash \
+          # We use 2.5 Pro to think/plan and 2.5 Flash to write the code.
+          # This gives the bot maximum reasoning to find the right file dynamically.
+          aider --model gemini/gemini-2.5-pro \
+                --editor-model gemini/gemini-2.5-flash \
                 --yes \
+                --auto-repo-map \
                 --message "$ISSUE_TEXT"
 
       - name: Create Pull Request
