@@ -2,14 +2,14 @@
 // src/layouts/Layout.astro
 import siteData from '../data/site.json';
 import '../styles/global.css';
-const { title } = Astro.props;
+import { ViewTransitions } from 'astro:transitions';
+import Header from '../components/Header.astro';
 
-// Get the current path to determine which link to highlight
-const currentPath = Astro.url.pathname;
+const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en" data-theme="rascals" class="bg-black text-white">
+<html lang="en" data-theme="rascals" class="bg-white text-gray-900 overflow-x-hidden">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -22,57 +22,16 @@ const currentPath = Astro.url.pathname;
     <link rel="manifest" href="/site.webmanifest">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <ViewTransitions />
 	</head>
-	<body class="flex flex-col min-h-screen bg-black font-sans antialiased text-white">
+	<body class="flex flex-col min-h-screen bg-white font-sans antialiased text-gray-900 overflow-x-hidden">
         
-    <header class="w-full py-4 bg-black border-b border-neutral-800">
-      <div class="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row items-center justify-between gap-4">
-        
-        <a href="/" class="shrink-0">
-          <img src="/images/logo.png" alt="Rascals Bar Logo" class="h-16 md:h-20 object-contain mx-auto lg:mx-0" onerror="this.style.display='none'" />
-        </a>
-        
-        <nav class="w-full lg:w-auto">
-          <ul class="flex flex-wrap justify-center lg:justify-end gap-x-4 md:gap-x-5 gap-y-2 text-sm md:text-base font-light tracking-wider uppercase">
-            <li>
-              <a href="/" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Home</a>
-            </li>
-            <li>
-              <a href="/about-us" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/about-us' || currentPath === '/about-us/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>About Us</a>
-            </li>
-            <li>
-              <a href="/menu" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/menu' || currentPath === '/menu/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Menu</a>
-            </li>
-            <li>
-              <a href="/events" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/events' || currentPath === '/events/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Events</a>
-            </li>
-            <li>
-              <a href="/gallery" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/gallery' || currentPath === '/gallery/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Gallery</a>
-            </li>
-            <li>
-              <a href="/specials" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/specials' || currentPath === '/specials/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Specials</a>
-            </li>
-            <li>
-              <a href="/shop" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/shop' || currentPath === '/shop/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Shop</a>
-            </li>
-            <li>
-              <a href="/directions" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/directions' || currentPath === '/directions/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Directions</a>
-            </li>
-            <li>
-              <a href="/links" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/links' || currentPath === '/links/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Links</a>
-            </li>
-            <li>
-              <a href="/contact" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/contact' || currentPath === '/contact/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Contact</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </header>
+    <Header />
 
 		<slot />
 
-    <footer class="mt-auto py-12 bg-black border-t border-neutral-800">
-      <div class="text-center text-gray-400 leading-relaxed px-4 flex flex-col items-center">
+    <footer class="mt-auto py-12 bg-gray-50 border-t border-gray-200">
+      <div class="text-center text-gray-600 leading-relaxed px-4 flex flex-col items-center">
         <p class="text-lg mb-1">{siteData.email}</p>
         <p class="text-lg">{siteData.phone}</p>
         <p class="text-lg mb-4">{siteData.address}</p>
@@ -82,16 +41,16 @@ const currentPath = Astro.url.pathname;
             href="https://www.facebook.com/rascals.appleton" 
             target="_blank" 
             rel="noopener noreferrer" 
-            class="w-10 h-10 rounded-full overflow-hidden transition-transform hover:scale-110 flex items-center justify-center shadow-lg bg-[#3b5998]"
+            class="w-10 h-10 rounded-full overflow-hidden transition-transform hover:scale-110 flex items-center justify-center shadow-md hover:shadow-lg bg-[#3b5998] hover:-translate-y-1 p-3"
             aria-label="Facebook"
           >
             <img src="/images/facebook.png" alt="Facebook" class="w-full h-full object-cover" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg'" />
           </a>
         </div>
         
-        <p class="font-bold text-white uppercase tracking-widest mb-2">Hours</p>
+        <p class="font-bold text-gray-900 uppercase tracking-widest mb-2">Hours</p>
         {siteData.hours.map((hour) => (
-          <p class="text-gray-300">{hour}</p>
+          <p class="text-gray-700">{hour}</p>
         ))}
       </div>
     </footer>
