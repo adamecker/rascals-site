@@ -74,7 +74,6 @@ jobs:
                 --no-gitignore \
                 --yes \
                 --map-tokens 1024 \
-                --retries 15 \
                 --message "$ISSUE_TEXT"
 
       - name: Create Pull Request
