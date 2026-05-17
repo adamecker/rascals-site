@@ -40,12 +40,11 @@ jobs:
           git config --global user.name "Gemini Assistant"
           git config --global user.email "assistant@rascals.bar"
 
-      - name: Checkout Existing PR Branch (Preserve History)
+      - name: Checkout Existing PR Branch
         run: |
           BRANCH_NAME="assistant-update-${{ github.event.issue.number }}"
-          # Check if the assistant has already created a branch for this issue
           if git ls-remote --heads origin $BRANCH_NAME | grep -q $BRANCH_NAME; then
-            echo "Existing PR branch found. Checking it out to build on top..."
+            echo "Existing PR branch found. Checking it out..."
             git fetch origin $BRANCH_NAME
             git checkout $BRANCH_NAME
           else
@@ -57,8 +56,12 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          # This clearly separates context so Aider doesn't get confused 
-          # between what it already did and what it needs to do right now.
+          
+          # LiteLLM configuration optimized for Google's Free Tier
+          NUM_RETRIES: "15"
+          LITELLM_INITIAL_BACKOFF: "15"  # Start by waiting 15 seconds
+          LITELLM_MAX_BACKOFF: "60"      # Never wait longer than 1 minute per attempt
+          
           ISSUE_TEXT: |
             Context (Original Request):
             ${{ github.event.issue.body }}
@@ -71,9 +74,11 @@ jobs:
                 --no-gitignore \
                 --yes \
                 --map-tokens 1024 \
+                --retries 15 \
                 --message "$ISSUE_TEXT"
 
       - name: Create Pull Request
+        if: always() # Guarantees partial work is saved even if the API eventually times out
         uses: peter-evans/create-pull-request@v6
         with:
           token: ${{ secrets.GH_TOKEN }}
