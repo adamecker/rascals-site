@@ -87,5 +87,6 @@ jobs:
             This PR was automatically generated and updated by the Gemini Assistant.
             
             Closes #${{ github.event.issue.number }}
+          base: main
           branch: "assistant-update-${{ github.event.issue.number }}"
           delete-branch: true
