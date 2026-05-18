@@ -67,7 +67,7 @@ jobs:
           MAX_RETRIES=10
           RETRY_COUNT=0
           
-          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; then
             echo "========================================================"
             echo "Running Aider (Attempt $((RETRY_COUNT + 1)) of $MAX_RETRIES)..."
             echo "========================================================"
