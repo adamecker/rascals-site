@@ -1,14 +1,21 @@
 ---
-// src/pages/shop.astro snippets
 import Layout from '../layouts/Layout.astro';
-import merchandise from '../data/shop.json';
-
-const shopImages = merchandise.map(item => item.image);
+import shopData from '../data/shop.json';
 ---
 
-<script define:vars={{ shopImages }}>
-  // Dynamically inherit the image array map inside client scripts:
-  // shopImages is now available in this script scope from define:vars
-  
-  // Lightbox functions use shopImages dynamically...
-</script>
+<Layout title="Shop | Rascals Bar">
+  <main class="w-full bg-black py-12 md:py-16 px-4">
+    <div class="max-w-3xl mx-auto w-full">
+      <h1 class="text-white text-4xl md:text-5xl font-extrabold mb-8 text-center">Shop</h1>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {shopData.map((item) => (
+          <div class="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
+            <img src={item.image} alt={item.name} class="w-48 h-48 object-contain mb-4" />
+            <h2 class="text-white text-2xl font-bold mb-2">{item.name}</h2>
+            <p class="text-gray-300 text-lg">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </main>
+</Layout>
