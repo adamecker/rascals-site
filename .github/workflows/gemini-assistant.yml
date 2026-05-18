@@ -76,17 +76,19 @@ jobs:
                 --map-tokens 1024 \
                 --message "$ISSUE_TEXT"
 
-      - name: Create Pull Request
-        if: always() # Guarantees partial work is saved even if the API eventually times out
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          commit-message: "Gemini Assistant: Applied newest feedback"
-          title: "Update from Gemini: ${{ github.event.issue.title }}"
-          body: |
-            This PR was automatically generated and updated by the Gemini Assistant.
-            
-            Closes #${{ github.event.issue.number }}
-          base: main
-          branch: "assistant-update-${{ github.event.issue.number }}"
-          delete-branch: true
+      - name: Push Commits and Create PR
+        if: always() # Guarantees Aider's commits are saved even if it hits a rate limit
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          BRANCH_NAME="assistant-update-${{ github.event.issue.number }}"
+          
+          # 1. Push Aider's native local commits directly to the remote branch
+          git push origin HEAD:$BRANCH_NAME
+          
+          # 2. Use the GitHub CLI to open a PR (it will harmlessly skip if the PR already exists)
+          gh pr create \
+            --title "Update from Gemini: ${{ github.event.issue.title }}" \
+            --body "This PR was automatically generated and updated by the Gemini Assistant. Closes #${{ github.event.issue.number }}" \
+            --base main \
+            --head $BRANCH_NAME || echo "PR already exists, branch successfully updated."
