@@ -56,12 +56,6 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-
-          # LiteLLM configuration optimized for Google's Free Tier
-          # LiteLLM configuration to aggressively bypass the 1-Minute Rate Limit
-          NUM_RETRIES: "30"              # Try up to 30 times before giving up entirely
-          LITELLM_INITIAL_BACKOFF: "65"  # Wait at least 65 seconds on the very first retry
-          LITELLM_MAX_BACKOFF: "120"     # Wait up to 2 minutes per attempt if it keeps failing
           
           ISSUE_TEXT: |
             Context (Original Request):
@@ -70,15 +64,43 @@ jobs:
             NEWEST INSTRUCTION TO APPLY NOW:
             ${{ github.event.comment.body || 'Execute the original request.' }}
         run: |
-          aider --model gemini/gemini-2.5-flash \
-                --editor-model gemini/gemini-2.5-flash \
-                --no-gitignore \
-                --yes \
-                --map-tokens 1024 \
-                --message "$ISSUE_TEXT"
+          MAX_RETRIES=10
+          RETRY_COUNT=0
+          
+          while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+            echo "========================================================"
+            echo "Running Aider (Attempt $((RETRY_COUNT + 1)) of $MAX_RETRIES)..."
+            echo "========================================================"
+            
+            # Run Aider and pipe the output to a text file while also printing it to the console
+            aider --model gemini/gemini-2.5-flash \
+                  --editor-model gemini/gemini-2.5-flash \
+                  --no-gitignore \
+                  --yes \
+                  --map-tokens 1024 \
+                  --message "$ISSUE_TEXT" 2>&1 | tee aider_output.txt
+            
+            # Read the output to see if Aider gave up due to the rate limit
+            if grep -q "The API provider has rate limited you" aider_output.txt || grep -q "litellm.RateLimitError" aider_output.txt; then
+              echo ""
+              echo "⚠️ Aider hit the Gemini Free Tier Rate Limit and gave up."
+              echo "💤 Sleeping for 65 seconds to completely clear the 1-minute quota window..."
+              sleep 65
+              RETRY_COUNT=$((RETRY_COUNT + 1))
+            else
+              echo ""
+              echo "✅ Aider completed the task without hitting the rate limit wall!"
+              break
+            fi
+          done
+          
+          if [ $RETRY_COUNT -eq $MAX_RETRIES ]; do
+            echo "❌ Aider failed after $MAX_RETRIES attempts."
+            exit 1
+          fi
 
       - name: Push Commits and Create PR
-        if: always() # Guarantees Aider's commits are saved even if it hits a rate limit
+        if: always()
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
