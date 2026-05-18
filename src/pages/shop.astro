@@ -2,12 +2,13 @@
 // src/pages/shop.astro snippets
 import Layout from '../layouts/Layout.astro';
 import merchandise from '../data/shop.json';
+
+const shopImages = merchandise.map(item => item.image);
 ---
 
-<script>
+<script define:vars={{ shopImages }}>
   // Dynamically inherit the image array map inside client scripts:
-  import merchandise from '../data/shop.json';
-  const shopImages = merchandise.map(item => item.image);
+  // shopImages is now available in this script scope from define:vars
   
   // Lightbox functions use shopImages dynamically...
 </script>
