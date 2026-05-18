@@ -56,11 +56,12 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          
+
           # LiteLLM configuration optimized for Google's Free Tier
-          NUM_RETRIES: "15"
-          LITELLM_INITIAL_BACKOFF: "15"  # Start by waiting 15 seconds
-          LITELLM_MAX_BACKOFF: "60"      # Never wait longer than 1 minute per attempt
+          # LiteLLM configuration to aggressively bypass the 1-Minute Rate Limit
+          NUM_RETRIES: "30"              # Try up to 30 times before giving up entirely
+          LITELLM_INITIAL_BACKOFF: "65"  # Wait at least 65 seconds on the very first retry
+          LITELLM_MAX_BACKOFF: "120"     # Wait up to 2 minutes per attempt if it keeps failing
           
           ISSUE_TEXT: |
             Context (Original Request):
