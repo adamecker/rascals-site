@@ -5,45 +5,45 @@ import siteData from '../data/site.json';
 ---
 
 <Layout title="Directions - Rascals Bar">
-  <main class="w-full bg-black py-4 px-4">
+  <main class="w-full bg-gray-50 py-4 px-4">
     <div class="max-w-5xl mx-auto space-y-6">
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
-        <div class="lg:col-span-7 text-left space-y-4 text-white">
-          <div class="border-b border-neutral-800 pb-2">
-            <h2 class="text-2xl font-bold uppercase text-white tracking-widest">
+        <div class="lg:col-span-7 text-left space-y-4 text-gray-900">
+          <div class="border-b border-gray-200 pb-2">
+            <h2 class="text-2xl font-bold uppercase text-gray-900 tracking-widest">
               Rascals Bar and Grill
             </h2>
           </div>
 
-          <div class="space-y-4 text-gray-300 font-light leading-relaxed">
+          <div class="space-y-4 text-gray-700 font-light leading-relaxed">
             <div>
-              <p class="font-bold text-white uppercase tracking-wider mb-1 text-sm">Directions from the North:</p>
-              <p class="text-gray-400 text-[15px] leading-relaxed">
+              <p class="font-bold text-gray-900 uppercase tracking-wider mb-1 text-sm">Directions from the North:</p>
+              <p class="text-gray-600 text-[15px] leading-relaxed">
                 Take Highway 41 South to Ballard Rd. (Hwy E) in Appleton. Turn left on Ballard Rd. approximately 2 miles to Wisconsin Avenue. Turn Right on Wisconsin Avenue approximately 2 miles to 702 E. Wisconsin Avenue. Rascals will be on the right just after Kwik Trip.
               </p>
             </div>
 
             <div>
-              <p class="font-bold text-white uppercase tracking-wider mb-1 text-sm">Directions from the South:</p>
-              <p class="text-gray-400 text-[15px] leading-relaxed">
+              <p class="font-bold text-gray-900 uppercase tracking-wider mb-1 text-sm">Directions from the South:</p>
+              <p class="text-gray-600 text-[15px] leading-relaxed">
                 Take Highway 41 North to Wisconsin Avenue in Appleton. Turn right on Wisconsin Avenue approximately 5 miles. The addresses will start at 4000 West and go down to 100 West, then start going back up (East). Go to 702 E. Wisconsin Avenue. Rascals will be on the Left just after Fox Communities Credit Union.
               </p>
             </div>
           </div>
 
-          <div class="pt-3 border-t border-neutral-800">
+          <div class="pt-3 border-t border-gray-200">
             <a 
               href={`tel:${siteData.phone}`} 
-              class="btn btn-outline border-white text-white hover:bg-white hover:text-black rounded-none tracking-widest uppercase text-xs px-5 py-2 transition-all inline-block"
+              class="btn btn-outline border-[#0224D9] text-[#0224D9] hover:bg-[#0224D9] hover:text-white rounded-none tracking-widest uppercase text-xs px-5 py-2 transition-all inline-block"
             >
               Call us : {siteData.phone}
             </a>
           </div>
         </div>
 
-        <div class="lg:col-span-5 w-full border border-neutral-800 bg-[#111111] p-3 shadow-xl max-w-sm mx-auto lg:mx-0">
+        <div class="lg:col-span-5 w-full border border-gray-200 bg-white p-3 shadow-md max-w-sm mx-auto lg:mx-0">
           <img 
             src="/images/gallery-2.jpg" 
             alt="Rascals Bar Interior" 
@@ -54,10 +54,10 @@ import siteData from '../data/site.json';
 
       </div>
 
-      <div class="w-full bg-[#111111] border border-neutral-800 p-3 shadow-2xl">
+      <div class="w-full bg-white border border-gray-200 p-3 shadow-md">
         <div class="w-full aspect-[21/9] min-h-[260px] md:min-h-[280px] overflow-hidden relative">
           <iframe 
-            class="w-full h-full border-0 absolute inset-0 bg-neutral-900"
+            class="w-full h-full border-0 absolute inset-0 bg-gray-100"
             src="https://maps.google.com/maps?q=Rascals%20Bar%20Appleton%20WI&t=&z=15&ie=UTF8&iwloc=&output=embed"
             allowfullscreen="" 
             loading="lazy" 

@@ -36,15 +36,17 @@ const currentPath = Astro.url.pathname;
           <div class="bg-white p-1.5 rounded-full inline-block drop-shadow-md">
             <img src="/images/logo.png" alt="Rascals Logo" class="h-16 w-auto" onerror="this.style.display='none'" />
           </div>
-          <span class="ml-3 text-3xl font-extrabold tracking-tight text-gray-900 align-middle">RASCALS</span>
         </a>
       </div>
-      <nav class="hidden md:flex space-x-8">
+      <nav class="hidden md:flex space-x-3 md:space-x-5 flex-wrap justify-center">
          <a href="/" class={`font-bold text-lg transition-all hover:-translate-y-1 ${currentPath === '/' ? 'text-[#E52421] border-b-2 border-[#E52421]' : 'text-gray-900 hover:text-[#E52421]'}`}>Home</a>
          <a href="/menu" class={`font-bold text-lg transition-all hover:-translate-y-1 ${currentPath === '/menu' ? 'text-[#F59120] border-b-2 border-[#F59120]' : 'text-gray-900 hover:text-[#F59120]'}`}>Menu</a>
-         <a href="/specials" class={`font-bold text-lg transition-all hover:-translate-y-1 ${currentPath === '/specials' ? 'text-[#399443] border-b-2 border-[#399443]' : 'text-gray-990 hover:text-[#399443]'}`}>Specials</a>
-         <a href="/events" class={`font-bold text-lg transition-all hover:-translate-y-1 ${currentPath === '/events' ? 'text-[#0224D9] border-b-2 border-[#0224D9]' : 'text-gray-900 hover:text-[#0224D9]'}`}>Events</a>
+         <a href="/specials" class={`font-bold text-lg transition-all hover:-translate-y-1 ${currentPath === '/specials' ? 'text-[#FDF01A] border-b-2 border-[#FDF01A]' : 'text-gray-900 hover:text-[#FDF01A]'}`}>Specials</a>
+         <a href="/events" class={`font-bold text-lg transition-all hover:-translate-y-1 ${currentPath === '/events' ? 'text-[#399443] border-b-2 border-[#399443]' : 'text-gray-900 hover:text-[#399443]'}`}>Events</a>
+         <a href="/gallery" class={`font-bold text-lg transition-all hover:-translate-y-1 ${currentPath === '/gallery' ? 'text-[#0224D9] border-b-2 border-[#0224D9]' : 'text-gray-900 hover:text-[#0224D9]'}`}>Gallery</a>
          <a href="/shop" class={`font-bold text-lg transition-all hover:-translate-y-1 ${currentPath === '/shop' ? 'text-[#7916E5] border-b-2 border-[#7916E5]' : 'text-gray-900 hover:text-[#7916E5]'}`}>Shop</a>
+         <a href="/contact" class={`font-bold text-lg transition-all hover:-translate-y-1 ${currentPath === '/contact' ? 'text-[#E52421] border-b-2 border-[#E52421]' : 'text-gray-900 hover:text-[#E52421]'}`}>Contact</a>
+         <a href="/directions" class={`font-bold text-lg transition-all hover:-translate-y-1 ${currentPath === '/directions' ? 'text-[#F59120] border-b-2 border-[#F59120]' : 'text-gray-900 hover:text-[#F59120]'}`}>Directions</a>
       </nav>
       <div class="md:hidden flex items-center">
         <button id="mobile-menu-btn" class="p-2 text-gray-900">
@@ -59,7 +61,10 @@ const currentPath = Astro.url.pathname;
        <a href="/menu" class="p-4 text-2xl font-bold text-gray-900">Menu</a>
        <a href="/specials" class="p-4 text-2xl font-bold text-gray-900">Specials</a>
        <a href="/events" class="p-4 text-2xl font-bold text-gray-900">Events</a>
+       <a href="/gallery" class="p-4 text-2xl font-bold text-gray-900">Gallery</a>
        <a href="/shop" class="p-4 text-2xl font-bold text-gray-900">Shop</a>
+       <a href="/contact" class="p-4 text-2xl font-bold text-gray-900">Contact</a>
+       <a href="/directions" class="p-4 text-2xl font-bold text-gray-900">Directions</a>
     </div>
   </div>
 </header>

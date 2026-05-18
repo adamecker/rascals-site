@@ -16,13 +16,13 @@ const galleryImages = Object.keys(imageFiles)
 ---
 
 <Layout title="Gallery | Rascals Bar">
-  <main class="w-full bg-black py-12 px-4 text-center min-h-[70vh]">
+  <main class="w-full bg-gray-50 py-12 px-4 text-center min-h-[70vh]">
     <div class="max-w-5xl mx-auto">
 
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {galleryImages.map((imgSrc, index) => (
           <div 
-            class="aspect-square bg-[#111111] overflow-hidden border border-neutral-800 cursor-pointer relative group shadow-lg" 
+            class="aspect-square bg-white overflow-hidden border border-gray-200 cursor-pointer relative group shadow-md" 
             onclick={`openLightbox(${index})`}
           >
             <img 
@@ -31,7 +31,7 @@ const galleryImages = Object.keys(imageFiles)
               class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100"
             />
             <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
-              <span class="text-[#ec4899] text-4xl drop-shadow-lg">⊕</span>
+              <span class="text-[#0224D9] text-4xl drop-shadow-lg">⊕</span>
             </div>
           </div>
         ))}
@@ -40,7 +40,7 @@ const galleryImages = Object.keys(imageFiles)
     </div>
   </main>
 
-  <dialog id="image_modal" class="modal bg-black/95 backdrop-blur-sm">
+  <dialog id="image_modal" class="modal bg-gray-900/95 backdrop-blur-sm">
     <div class="modal-box bg-transparent shadow-none max-w-5xl w-full p-0 relative flex items-center justify-center overflow-hidden">
       
       <form method="dialog">
@@ -48,7 +48,7 @@ const galleryImages = Object.keys(imageFiles)
       </form>
 
       <button 
-        class="absolute left-4 z-50 bg-black/50 hover:bg-[#ec4899] text-white rounded-full p-3 border border-white/20 text-xl font-bold transition-all"
+        class="absolute left-4 z-50 bg-gray-900/50 hover:bg-[#0224D9] text-white rounded-full p-3 border border-white/20 text-xl font-bold transition-all"
         onclick="navigateLightbox(-1)"
       >
         ❮
@@ -57,7 +57,7 @@ const galleryImages = Object.keys(imageFiles)
       <img id="modal_image" src="" alt="Full Screen" class="max-w-full h-auto max-h-[85vh] object-contain rounded-none shadow-2xl" />
 
       <button 
-        class="absolute right-4 z-50 bg-black/50 hover:bg-[#ec4899] text-white rounded-full p-3 border border-white/20 text-xl font-bold transition-all"
+        class="absolute right-4 z-50 bg-gray-900/50 hover:bg-[#0224D9] text-white rounded-full p-3 border border-white/20 text-xl font-bold transition-all"
         onclick="navigateLightbox(1)"
       >
         ❯
