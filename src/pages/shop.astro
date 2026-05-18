@@ -6,16 +6,99 @@ import shopData from '../data/shop.json';
 <Layout title="Shop | Rascals Bar">
   <main class="w-full bg-black py-12 md:py-16 px-4">
     <div class="max-w-3xl mx-auto w-full">
-      <h1 class="text-white text-4xl md:text-5xl font-extrabold mb-8 text-center">Shop</h1>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {shopData.map((item) => (
-          <div class="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center">
+        {shopData.map((item, index) => (
+          <button
+            class="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center cursor-pointer hover:bg-gray-700 transition-colors duration-200"
+            data-index={index}
+          >
             <img src={item.image} alt={item.name} class="w-48 h-48 object-contain mb-4" />
             <h2 class="text-white text-2xl font-bold mb-2">{item.name}</h2>
             <p class="text-gray-300 text-lg">{item.description}</p>
-          </div>
+          </button>
         ))}
       </div>
     </div>
+
+    <!-- Shop Item Modal -->
+    <div id="shopModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+      <div class="relative bg-gray-900 rounded-lg p-6 max-w-xl w-full flex flex-col items-center">
+        <button id="closeShopModal" class="absolute top-2 right-2 text-white text-3xl leading-none">&times;</button>
+        <img id="shopModalImage" src="" alt="" class="max-h-[70vh] w-auto object-contain mb-4" />
+        <h3 id="shopModalName" class="text-white text-3xl font-bold mb-2"></h3>
+        <p id="shopModalDescription" class="text-gray-300 text-lg mb-4"></p>
+        <div class="flex justify-between w-full">
+          <button id="prevShopItem" class="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg">&larr; Previous</button>
+          <button id="nextShopItem" class="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg">Next &rarr;</button>
+        </div>
+      </div>
+    </div>
+
+    <script define:vars={{ shopData }} client:load>
+      const shopItems = Array.from(document.querySelectorAll('[data-index]'));
+      const shopModal = document.getElementById('shopModal');
+      const closeShopModal = document.getElementById('closeShopModal');
+      const shopModalImage = document.getElementById('shopModalImage');
+      const shopModalName = document.getElementById('shopModalName');
+      const shopModalDescription = document.getElementById('shopModalDescription');
+      const prevShopItem = document.getElementById('prevShopItem');
+      const nextShopItem = document.getElementById('nextShopItem');
+
+      let currentShopIndex = 0;
+
+      function openShopModal(index) {
+        currentShopIndex = index;
+        const item = shopData[currentShopIndex];
+        shopModalImage.src = item.image;
+        shopModalImage.alt = item.name;
+        shopModalName.textContent = item.name;
+        shopModalDescription.textContent = item.description;
+        shopModal.classList.remove('hidden');
+      }
+
+      function closeShopModalHandler() {
+        shopModal.classList.add('hidden');
+      }
+
+      function navigateShopItems(direction) {
+        currentShopIndex += direction;
+        if (currentShopIndex < 0) {
+          currentShopIndex = shopData.length - 1;
+        } else if (currentShopIndex >= shopData.length) {
+          currentShopIndex = 0;
+        }
+        openShopModal(currentShopIndex);
+      }
+
+      shopItems.forEach((itemButton) => {
+        itemButton.addEventListener('click', () => {
+          const index = parseInt(itemButton.dataset.index, 10);
+          openShopModal(index);
+        });
+      });
+
+      closeShopModal.addEventListener('click', closeShopModalHandler);
+      shopModal.addEventListener('click', (event) => {
+        // Close modal if clicking on the overlay itself
+        if (event.target === shopModal) {
+          closeShopModalHandler();
+        }
+      });
+      prevShopItem.addEventListener('click', () => navigateShopItems(-1));
+      nextShopItem.addEventListener('click', () => navigateShopItems(1));
+
+      // Keyboard navigation
+      document.addEventListener('keydown', (e) => {
+        if (!shopModal.classList.contains('hidden')) {
+          if (e.key === 'ArrowLeft') {
+            navigateShopItems(-1);
+          } else if (e.key === 'ArrowRight') {
+            navigateShopItems(1);
+          } else if (e.key === 'Escape') {
+            closeShopModalHandler();
+          }
+        }
+      });
+    </script>
   </main>
 </Layout>
