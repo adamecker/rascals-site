@@ -20,56 +20,65 @@ import shopData from '../data/shop.json';
       </div>
     </div>
 
-    <!-- Shop Item Modal -->
-    <div id="shopModal" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
-      <div class="relative bg-gray-900 rounded-lg p-6 max-w-xl w-full flex flex-col items-center">
-        <button id="closeShopModal" class="absolute top-2 right-2 text-white text-3xl leading-none">&times;</button>
-        <img id="shopModalImage" src="" alt="" class="max-h-[70vh] w-auto object-contain mb-4" />
-        <h3 id="shopModalName" class="text-white text-3xl font-bold mb-2"></h3>
-        <p id="shopModalDescription" class="text-gray-300 text-lg mb-4"></p>
-        <div class="flex justify-between w-full">
-          <button id="prevShopItem" class="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg">&larr; Previous</button>
-          <button id="nextShopItem" class="bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg">Next &rarr;</button>
-        </div>
+    <dialog id="shop_image_modal" class="modal bg-black/95 backdrop-blur-sm">
+      <div class="modal-box bg-transparent shadow-none max-w-5xl w-full p-0 relative flex items-center justify-center overflow-hidden">
+        
+        <form method="dialog">
+          <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 text-white text-2xl z-50 hover:bg-white/20">✕</button>
+        </form>
+
+        <button 
+          class="absolute left-4 z-50 bg-black/50 hover:bg-[#ec4899] text-white rounded-full p-3 border border-white/20 text-xl font-bold transition-all"
+          onclick="navigateShopItems(-1)"
+        >
+          ❮
+        </button>
+        
+        <img id="shop_modal_image" src="" alt="Shop Item Full Screen" class="max-w-full h-auto max-h-[85vh] object-contain rounded-none shadow-2xl" />
+
+        <button 
+          class="absolute right-4 z-50 bg-black/50 hover:bg-[#ec4899] text-white rounded-full p-3 border border-white/20 text-xl font-bold transition-all"
+          onclick="navigateShopItems(1)"
+        >
+          ❯
+        </button>
       </div>
-    </div>
+      
+      <form method="dialog" class="modal-backdrop">
+        <button class="cursor-default">close</button>
+      </form>
+    </dialog>
 
     <script define:vars={{ shopData }} client:load>
-      const shopItems = Array.from(document.querySelectorAll('[data-index]'));
-      const shopModal = document.getElementById('shopModal');
-      const closeShopModal = document.getElementById('closeShopModal');
-      const shopModalImage = document.getElementById('shopModalImage');
-      const shopModalName = document.getElementById('shopModalName');
-      const shopModalDescription = document.getElementById('shopModalDescription');
-      const prevShopItem = document.getElementById('prevShopItem');
-      const nextShopItem = document.getElementById('nextShopItem');
-
       let currentShopIndex = 0;
 
-      function openShopModal(index) {
+      window.openShopModal = function(index) {
         currentShopIndex = index;
-        const item = shopData[currentShopIndex];
-        shopModalImage.src = item.image;
-        shopModalImage.alt = item.name;
-        shopModalName.textContent = item.name;
-        shopModalDescription.textContent = item.description;
-        shopModal.classList.remove('hidden');
+        updateShopModalImage();
+        document.getElementById('shop_image_modal').showModal();
       }
 
-      function closeShopModalHandler() {
-        shopModal.classList.add('hidden');
-      }
-
-      function navigateShopItems(direction) {
+      window.navigateShopItems = function(direction) {
         currentShopIndex += direction;
+        
+        // Loop back around if we go out of bounds
         if (currentShopIndex < 0) {
           currentShopIndex = shopData.length - 1;
         } else if (currentShopIndex >= shopData.length) {
           currentShopIndex = 0;
         }
-        openShopModal(currentShopIndex);
+        
+        updateShopModalImage();
       }
 
+      function updateShopModalImage() {
+        const modalImg = document.getElementById('shop_modal_image');
+        const item = shopData[currentShopIndex];
+        modalImg.src = item.image;
+        modalImg.alt = item.name;
+      }
+
+      const shopItems = Array.from(document.querySelectorAll('[data-index]'));
       shopItems.forEach((itemButton) => {
         itemButton.addEventListener('click', () => {
           const index = parseInt(itemButton.dataset.index, 10);
@@ -77,25 +86,16 @@ import shopData from '../data/shop.json';
         });
       });
 
-      closeShopModal.addEventListener('click', closeShopModalHandler);
-      shopModal.addEventListener('click', (event) => {
-        // Close modal if clicking on the overlay itself
-        if (event.target === shopModal) {
-          closeShopModalHandler();
-        }
-      });
-      prevShopItem.addEventListener('click', () => navigateShopItems(-1));
-      nextShopItem.addEventListener('click', () => navigateShopItems(1));
-
-      // Keyboard navigation
+      // Keyboard Arrow Navigation
       document.addEventListener('keydown', (e) => {
-        if (!shopModal.classList.contains('hidden')) {
+        const modal = document.getElementById('shop_image_modal');
+        if (modal.open) {
           if (e.key === 'ArrowLeft') {
             navigateShopItems(-1);
           } else if (e.key === 'ArrowRight') {
             navigateShopItems(1);
           } else if (e.key === 'Escape') {
-            closeShopModalHandler();
+            modal.close();
           }
         }
       });
