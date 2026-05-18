@@ -22,8 +22,8 @@ const navLinks = [
   <div class="absolute inset-x-0 top-0 h-2 bg-[linear-gradient(to_right,#E52421_0%,#E52421_16.66%,#F59120_16.66%,#F59120_33.33%,#FDF01A_33.33%,#FDF01A_50%,#399443_50%,#399443_66.66%,#0224D9_66.66%,#0224D9_83.33%,#7916E5_83.33%,#7916E5_100%)]"></div>
   <div class="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row items-center justify-between gap-4 relative">
     
-    <a href="/" class="shrink-0 relative z-10 -mt-2 group">
-      <img src="/images/logo.png" alt="Rascals Bar Logo" class="h-16 md:h-20 object-contain mx-auto lg:mx-0 group-hover:-translate-y-1 transition-transform" onerror="this.style.display='none'" />
+    <a href="/" class="shrink-0 relative z-10 group -mt-6 lg:-mt-10"> <!-- Adjusted positioning to make the logo drop lower -->
+      <img src="/images/logo.png" alt="Rascals Bar Logo" class="h-20 md:h-28 object-contain mx-auto lg:mx-0 group-hover:-translate-y-1 transition-transform" onerror="this.style.display='none'" /> <!-- Increased logo size -->
     </a>
     
     <button id="mobile-menu-toggle" class="lg:hidden p-3 rounded-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 shadow-md hover:-translate-y-1">
@@ -48,7 +48,7 @@ const navLinks = [
     </nav>
   </div>
 </header>
-<div id="mobile-menu-overlay" class="fixed inset-0 bg-white/90 backdrop-blur-lg z-40 hidden flex-col items-center justify-center p-8 transition-opacity duration-300 opacity-0">
+<div id="mobile-menu-overlay" class="fixed inset-0 bg-white/90 backdrop-blur-lg z-40 flex-col items-center justify-center p-8 opacity-0 translate-y-full transition-all duration-300 ease-out">
   <button id="close-mobile-menu" class="absolute top-4 right-4 p-3 rounded-md hover:bg-gray-100 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300 shadow-md hover:-translate-y-1">
     <svg class="w-8 h-8 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
@@ -75,17 +75,22 @@ const navLinks = [
   const closeMobileMenu = document.getElementById('close-mobile-menu');
   const mobileMenuOverlay = document.getElementById('mobile-menu-overlay');
 
+  // Set initial state to hidden and off-screen
+  mobileMenuOverlay.style.display = 'none';
+
   mobileMenuToggle.addEventListener('click', () => {
-    mobileMenuOverlay.classList.remove('hidden');
+    mobileMenuOverlay.style.display = 'flex'; // Make visible
     setTimeout(() => {
-      mobileMenuOverlay.classList.add('opacity-100');
-    }, 10); // Small delay for transition to work
+      mobileMenuOverlay.classList.remove('opacity-0', 'translate-y-full');
+      mobileMenuOverlay.classList.add('opacity-100', 'translate-y-0');
+    }, 10); // Small delay to allow 'display' change to render before transition
   });
 
   closeMobileMenu.addEventListener('click', () => {
-    mobileMenuOverlay.classList.remove('opacity-100');
+    mobileMenuOverlay.classList.remove('opacity-100', 'translate-y-0');
+    mobileMenuOverlay.classList.add('opacity-0', 'translate-y-full');
     setTimeout(() => {
-      mobileMenuOverlay.classList.add('hidden');
+      mobileMenuOverlay.style.display = 'none'; // Hide after transition
     }, 300); // Match transition duration
   });
 </script>
