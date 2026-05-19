@@ -78,14 +78,6 @@ import shopData from '../data/shop.json';
         modalImg.alt = item.name;
       }
 
-      const shopItems = Array.from(document.querySelectorAll('[data-index]'));
-      shopItems.forEach((itemButton) => {
-        itemButton.addEventListener('click', () => {
-          const index = parseInt(itemButton.dataset.index, 10);
-          openShopModal(index);
-        });
-      });
-
       // Keyboard Arrow Navigation
       document.addEventListener('keydown', (e) => {
         const modal = document.getElementById('shop_image_modal');
