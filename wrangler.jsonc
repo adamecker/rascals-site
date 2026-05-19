@@ -3,10 +3,6 @@
 	"compatibility_flags": ["global_fetch_strictly_public"],
 	"name": "rascals-bar",
 	"pages_build_output_dir": "dist",
-	"assets": {
-		"directory": "./dist",
-		"binding": "ASSETS"
-	},
 	"observability": {
 		"enabled": true
 	}
