@@ -9,5 +9,6 @@ export default defineConfig({
   integrations: [tailwind()],
   adapter: cloudflare({
     imageService: 'cloudflare',
+    configPath: 'wrangler.jsonc',
   }),
 });
