@@ -78,6 +78,8 @@ jobs:
                   --no-gitignore \
                   --yes \
                   --map-tokens 1024 \
+                  --verbose \
+                  --show-model-warnings \
                   --message "$ISSUE_TEXT" 2>&1 | tee aider_output.txt
             
             # Read the output to see if Aider gave up due to the rate limit
