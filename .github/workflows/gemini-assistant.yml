@@ -32,8 +32,8 @@ jobs:
 
       - name: Install Aider and LiteLLM Proxy
         run: |
-          python -m pip install --upgrade pip
-          pip install aider-chat 'litellm[proxy]'
+          pipx install aider-chat
+          pipx install 'litellm[proxy]'
 
       - name: Configure Git Credentials
         run: |
@@ -85,7 +85,7 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          litellm --config litellm_config.yaml &
+          litellm --config litellm_config.yaml --detailed_debug > proxy.log 2>&1 &
           sleep 5
 
       - name: Run Aider via Proxy
@@ -101,7 +101,12 @@ jobs:
             --model openai/gemini/gemini-2.5-flash \
             --editor-model openai/gemini/gemini-2.5-flash \
             --yes \
+            --verbose \
             --message "$ISSUE_TEXT"
+
+      - name: Print Proxy Logs (On Failure)
+        if: failure()
+        run: cat proxy.log
 
       - name: Push Commits and Create PR
         if: always()
