@@ -103,8 +103,6 @@ jobs:
             --yes \
             --verbose \
             --timeout 600 \
-            --no-git-mentions \
-            --no-watch \
             --message "$ISSUE_TEXT"
 
       - name: Print Proxy Logs (On Failure)
