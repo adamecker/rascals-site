@@ -93,7 +93,6 @@ jobs:
         env:
           OPENAI_API_KEY: "dummy-key"
           OPENAI_API_BASE: "http://0.0.0.0:4000"
-          OPENAI_TIMEOUT: "600"
         run: |
           ISSUE_TEXT=$(cat issue_context.txt)
           
@@ -103,6 +102,9 @@ jobs:
             --editor-model openai/gemini/gemini-2.5-flash \
             --yes \
             --verbose \
+            --timeout 600 \
+            --no-git-mentions \
+            --no-watch \
             --message "$ISSUE_TEXT"
 
       - name: Print Proxy Logs (On Failure)
