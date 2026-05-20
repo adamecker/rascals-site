@@ -60,7 +60,7 @@ jobs:
           ISSUE_JSON=$(gh issue view ${{ github.event.issue.number }} --json title,body,comments)
           TITLE=$(echo "$ISSUE_JSON" | jq -r '.title')
           BODY=$(echo "$ISSUE_JSON" | jq -r '.body')
-          COMMENTS=$(echo "$ISSUE_JSON" | jq -r '.comments[].body' | paste -sd "\n\n" -)
+          COMMENTS=$(echo "$ISSUE_JSON" | jq -r '.comments[-1].body')
           
           # Removed single quotes around EOF to allow bash variable expansion
           cat << EOF > issue_context.txt
