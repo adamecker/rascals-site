@@ -7,16 +7,20 @@ import shopData from '../data/shop.json';
   <main class="w-full bg-black py-12 md:py-16 px-4">
     <div class="max-w-3xl mx-auto w-full">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {shopData.map((item, index) => (
-          <button
-            class="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center cursor-pointer hover:bg-gray-700 transition-colors duration-200"
-            onclick={`openShopModal(${index})`}
-          >
-            <img src={item.image} alt={item.name} class="w-48 h-48 object-contain mb-4" />
-            <h2 class="text-white text-2xl font-bold mb-2">{item.name}</h2>
-            <p class="text-gray-300 text-lg">{item.description}</p>
-          </button>
-        ))}
+        {shopData && shopData.length > 0 ? (
+          shopData.map((item, index) => (
+            <button
+              class="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center cursor-pointer hover:bg-gray-700 transition-colors duration-200"
+              onclick={`openShopModal(${index})`}
+            >
+              <img src={item.image} alt={item.name} class="w-48 h-48 object-contain mb-4" />
+              <h2 class="text-white text-2xl font-bold mb-2">{item.name}</h2>
+              <p class="text-gray-300 text-lg">{item.description}</p>
+            </button>
+          ))
+        ) : (
+          <p class="text-gray-400 text-center col-span-full">No shop items available at this time. Please check back later!</p>
+        )}
       </div>
     </div>
 
@@ -24,6 +28,7 @@ import shopData from '../data/shop.json';
       <div class="modal-box bg-transparent shadow-none max-w-5xl w-full p-0 relative flex items-center justify-center overflow-hidden">
         
         <form method="dialog">
+          {/* Updated close button to match gallery.astro styling */}
           <button class="btn btn-sm btn-circle btn-ghost absolute right-4 top-4 text-white text-2xl z-50 hover:bg-white/20">✕</button>
         </form>
 
@@ -52,45 +57,63 @@ import shopData from '../data/shop.json';
     <script define:vars={{ shopData }} client:load>
       let currentShopIndex = 0;
 
-      window.openShopModal = function(index) {
-        currentShopIndex = index;
-        updateShopModalImage();
-        document.getElementById('shop_image_modal').showModal();
-      }
-
-      window.navigateShopItems = function(direction) {
-        currentShopIndex += direction;
-        
-        // Loop back around if we go out of bounds
-        if (currentShopIndex < 0) {
-          currentShopIndex = shopData.length - 1;
-        } else if (currentShopIndex >= shopData.length) {
-          currentShopIndex = 0;
+      // Add a check for empty shopData to prevent errors
+      if (!shopData || shopData.length === 0) {
+        console.warn("Shop data is empty or not loaded. Shop modal functionality will be limited.");
+        // Optionally disable buttons or show a message to the user
+        window.openShopModal = function() { console.warn("No shop items to display."); };
+        window.navigateShopItems = function() { console.warn("No shop items to navigate."); };
+        // Exit early as there's no data to process
+        // The HTML already shows a message if shopData is empty
+        // No need to return here, as the functions are redefined.
+      } else {
+        window.openShopModal = function(index) {
+          currentShopIndex = index;
+          updateShopModalImage();
+          document.getElementById('shop_image_modal').showModal();
         }
-        
-        updateShopModalImage();
-      }
 
-      function updateShopModalImage() {
-        const modalImg = document.getElementById('shop_modal_image');
-        const item = shopData[currentShopIndex];
-        modalImg.src = item.image;
-        modalImg.alt = item.name;
-      }
+        window.navigateShopItems = function(direction) {
+          currentShopIndex += direction;
+          
+          // Loop back around if we go out of bounds
+          if (currentShopIndex < 0) {
+            currentShopIndex = shopData.length - 1;
+          } else if (currentShopIndex >= shopData.length) {
+            currentShopIndex = 0;
+          }
+          
+          updateShopModalImage();
+        }
 
-      // Keyboard Arrow Navigation
-      document.addEventListener('keydown', (e) => {
-        const modal = document.getElementById('shop_image_modal');
-        if (modal.open) {
-          if (e.key === 'ArrowLeft') {
-            navigateShopItems(-1);
-          } else if (e.key === 'ArrowRight') {
-            navigateShopItems(1);
-          } else if (e.key === 'Escape') {
-            modal.close();
+        function updateShopModalImage() {
+          const modalImg = document.getElementById('shop_modal_image');
+          const item = shopData[currentShopIndex];
+          // Defensive check for item and item.image
+          if (item && item.image) {
+              modalImg.src = item.image;
+              modalImg.alt = item.name || "Shop Item"; // Fallback alt text
+          } else {
+              modalImg.src = ""; // Clear image if item is invalid
+              modalImg.alt = "Image not available";
+              console.error("Invalid shop item or missing image:", item);
           }
         }
-      });
+
+        // Keyboard Arrow Navigation
+        document.addEventListener('keydown', (e) => {
+          const modal = document.getElementById('shop_image_modal');
+          if (modal.open) {
+            if (e.key === 'ArrowLeft') {
+              navigateShopItems(-1);
+            } else if (e.key === 'ArrowRight') {
+              navigateShopItems(1);
+            } else if (e.key === 'Escape') {
+              modal.close();
+            }
+          }
+        });
+      }
     </script>
   </main>
 </Layout>
