@@ -62,7 +62,8 @@ jobs:
           BODY=$(echo "$ISSUE_JSON" | jq -r '.body')
           COMMENTS=$(echo "$ISSUE_JSON" | jq -r '.comments[].body' | paste -sd "\n\n" -)
           
-          cat << 'EOF' > issue_context.txt
+          # Removed single quotes around EOF to allow bash variable expansion
+          cat << EOF > issue_context.txt
           Title: $TITLE
           Original Request: $BODY
           
