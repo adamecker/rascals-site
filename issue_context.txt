@@ -1,0 +1,1 @@
+Can you move the x to close image preview on shop page to be on top right of image view like it is on the gallery page? Because the shop images have a white background you'll need to make the X black or have a gray opacity layer under it like the arrows do. Also make sure th arrow positioning matches the image view from the gallery page
