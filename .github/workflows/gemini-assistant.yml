@@ -55,90 +55,24 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
+          # Fetch ONLY the latest comment
           LATEST_COMMENT=$(gh issue view ${{ github.event.issue.number }} --json comments --jq '.comments[-1].body')
           echo "$LATEST_COMMENT" > issue_context.txt
 
-      - name: Start Dynamic OpenAI-Compatible Proxy
-        run: |
-          cat << 'EOF' > proxy.py
-          import time, urllib.request, urllib.error, json, re
-          from http.server import BaseHTTPRequestHandler, HTTPServer
-
-          class SmartProxy(BaseHTTPRequestHandler):
-              def do_POST(self):
-                  length = int(self.headers.get('Content-Length', 0))
-                  data = self.rfile.read(length)
-                  url = "https://generativelanguage.googleapis.com" + self.path
-                  
-                  req = urllib.request.Request(url, data=data, method='POST')
-                  for k, v in self.headers.items():
-                      if k.lower() not in ['host']:
-                          req.add_header(k, v)
-                  
-                  max_retries = 6
-                  for attempt in range(max_retries):
-                      try:
-                          resp = urllib.request.urlopen(req)
-                          status, headers, body = resp.status, resp.headers, resp.read()
-                          break 
-                      except urllib.error.HTTPError as e:
-                          status, headers, body = e.code, e.headers, e.read()
-                          
-                          if status == 429:
-                              wait_time = 61.0 # Default fallback
-                              
-                              # 1. Try to read HTTP Header first
-                              retry_after = e.headers.get('Retry-After')
-                              if retry_after:
-                                  try:
-                                      wait_time = float(retry_after)
-                                  except ValueError:
-                                      pass
-                              else:
-                                  # 2. Try to regex the exact wait time from the error body
-                                  try:
-                                      body_str = body.decode('utf-8')
-                                      # Looks for patterns like "retry in 36.7125s" or "retry in 5s"
-                                      match = re.search(r'retry in (\d+(?:\.\d+)?)s', body_str)
-                                      if match:
-                                          wait_time = float(match.group(1))
-                                  except Exception as parse_err:
-                                      print(f"Failed to parse body: {parse_err}")
-                              
-                              # Add 0.5s buffer to ensure the exact millisecond threshold passes
-                              wait_time += 0.5
-                              
-                              print(f"Rate limited (429)! Proxy paused for {wait_time:.2f}s (Attempt {attempt+1}/{max_retries})")
-                              time.sleep(wait_time)
-                              continue
-                          else:
-                              break
-
-                  self.send_response(status)
-                  for k, v in headers.items():
-                      self.send_header(k, v)
-                  self.end_headers()
-                  self.wfile.write(body)
-
-          print("Starting Dynamic Proxy on port 4000...")
-          HTTPServer(('0.0.0.0', 4000), SmartProxy).serve_forever()
-          EOF
-          
-          python3 proxy.py &
-          sleep 3
-
-      - name: Run Aider via Smart Proxy
+      - name: Run Aider Natively
         env:
-          OPENAI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          OPENAI_API_BASE: "http://127.0.0.1:4000/v1beta/openai/"
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          # Force the native client to retry enough times to outlast the 60s quota window
+          LITELLM_NUM_RETRIES: "10"
         run: |
           ISSUE_TEXT=$(cat issue_context.txt)
           
           echo "Starting Aider..."
           aider \
-            --model openai/gemini-2.5-flash \
+            --model gemini/gemini-2.5-flash \
             --yes \
-            --timeout 600 \
+            --verbose \
+            --no-auto-commits \
             --message "$ISSUE_TEXT"
 
       - name: Push Commits and Create PR
@@ -148,8 +82,8 @@ jobs:
         run: |
           BRANCH_NAME="assistant-update-${{ github.event.issue.number }}"
           
-          # CLEANUP: Delete temporary files so they aren't committed
-          rm -f issue_context.txt proxy.py
+          # CLEANUP: Delete temporary text file so it doesn't get committed to your repo
+          rm -f issue_context.txt
           
           git add .
           git commit -m "Assistant update: ${{ github.event.issue.title }}" || echo "No changes to commit"
