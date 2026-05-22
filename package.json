@@ -7,12 +7,11 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "npm run clean && astro build",
+    "build": "astro build",
     "preview": "npm run build && wrangler dev",
     "astro": "astro",
     "generate-types": "wrangler types",
-    "deploy": "npm run build && wrangler deploy",
-    "clean": "rm -rf .wrangler dist"
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^13.5.0",
