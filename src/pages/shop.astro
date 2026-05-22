@@ -24,14 +24,13 @@ import shopData from '../data/shop.json';
       </div>
     </div>
 
-    <dialog id="shop_image_modal" class="modal">
-      {/* Moved close button here, outside modal-box, and applied positioning to its form wrapper */}
-      <form method="dialog" class="absolute right-4 top-4 z-50">
-        <button class="btn btn-sm btn-circle btn-ghost text-white text-2xl hover:bg-white/20">✕</button>
-      </form>
-
+    <dialog id="shop_image_modal" class="modal bg-black/95 backdrop-blur-sm">
       <div class="modal-box bg-transparent shadow-none max-w-5xl w-full p-0 relative flex items-center justify-center overflow-hidden">
         
+        <form method="dialog">
+          <button class="absolute right-4 top-4 z-50 bg-black/50 hover:bg-[#ec4899] text-white rounded-full p-3 border border-white/20 text-xl font-bold transition-all">✕</button>
+        </form>
+
         <button 
           class="absolute left-4 z-50 bg-black/50 hover:bg-[#ec4899] text-white rounded-full p-3 border border-white/20 text-xl font-bold transition-all"
           onclick="navigateShopItems(-1)"
