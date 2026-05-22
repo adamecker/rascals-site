@@ -58,10 +58,10 @@ jobs:
           LATEST_COMMENT=$(gh issue view ${{ github.event.issue.number }} --json comments --jq '.comments[-1].body')
           echo "$LATEST_COMMENT" > issue_context.txt
 
-      - name: Start Smart Retry Proxy
+      - name: Start Dynamic OpenAI-Compatible Proxy
         run: |
           cat << 'EOF' > proxy.py
-          import time, urllib.request, urllib.error, json
+          import time, urllib.request, urllib.error, json, re
           from http.server import BaseHTTPRequestHandler, HTTPServer
 
           class SmartProxy(BaseHTTPRequestHandler):
@@ -81,34 +81,37 @@ jobs:
                           resp = urllib.request.urlopen(req)
                           status, headers, body = resp.status, resp.headers, resp.read()
                           break 
-                          
                       except urllib.error.HTTPError as e:
                           status, headers, body = e.code, e.headers, e.read()
                           
                           if status == 429:
-                              wait_time = 60.0 # Safe fallback
-                              try:
-                                  # Parse Google's JSON error response
-                                  error_json = json.loads(body.decode('utf-8'))
-                                  details = error_json.get('error', {}).get('details', [])
-                                  
-                                  for detail in details:
-                                      if detail.get('@type') == 'type.googleapis.com/google.rpc.RetryInfo':
-                                          delay_str = detail.get('retryDelay', '')
-                                          if delay_str.endswith('s'):
-                                              # Converts "36.71s" or "45s" into a float
-                                              wait_time = float(delay_str[:-1])
-                                              break
-                              except Exception as parse_err:
-                                  print(f"JSON Parse fallback. Error: {parse_err}")
+                              wait_time = 61.0 # Default fallback
                               
-                              # Add a tiny 0.5s buffer to ensure we clear the exact millisecond threshold
-                              wait_time += 0.5 
-                              print(f"Google requested wait. Proxy paused for {wait_time}s (Attempt {attempt+1}/{max_retries})")
+                              # 1. Try to read HTTP Header first
+                              retry_after = e.headers.get('Retry-After')
+                              if retry_after:
+                                  try:
+                                      wait_time = float(retry_after)
+                                  except ValueError:
+                                      pass
+                              else:
+                                  # 2. Try to regex the exact wait time from the error body
+                                  try:
+                                      body_str = body.decode('utf-8')
+                                      # Looks for patterns like "retry in 36.7125s" or "retry in 5s"
+                                      match = re.search(r'retry in (\d+(?:\.\d+)?)s', body_str)
+                                      if match:
+                                          wait_time = float(match.group(1))
+                                  except Exception as parse_err:
+                                      print(f"Failed to parse body: {parse_err}")
+                              
+                              # Add 0.5s buffer to ensure the exact millisecond threshold passes
+                              wait_time += 0.5
+                              
+                              print(f"Rate limited (429)! Proxy paused for {wait_time:.2f}s (Attempt {attempt+1}/{max_retries})")
                               time.sleep(wait_time)
-                              continue # Loop around and resend the request natively
+                              continue
                           else:
-                              # If it's a 400 or 500 error, pass it back to Aider immediately
                               break
 
                   self.send_response(status)
@@ -117,7 +120,7 @@ jobs:
                   self.end_headers()
                   self.wfile.write(body)
 
-          print("Starting Smart Retry Proxy on port 4000...")
+          print("Starting Dynamic Proxy on port 4000...")
           HTTPServer(('0.0.0.0', 4000), SmartProxy).serve_forever()
           EOF
           
@@ -126,14 +129,14 @@ jobs:
 
       - name: Run Aider via Smart Proxy
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GEMINI_API_BASE: "http://0.0.0.0:4000"
+          OPENAI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPENAI_API_BASE: "http://127.0.0.1:4000/v1beta/openai/"
         run: |
           ISSUE_TEXT=$(cat issue_context.txt)
           
           echo "Starting Aider..."
           aider \
-            --model gemini/gemini-2.5-flash \
+            --model openai/gemini-2.5-flash \
             --yes \
             --timeout 600 \
             --message "$ISSUE_TEXT"
@@ -144,6 +147,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           BRANCH_NAME="assistant-update-${{ github.event.issue.number }}"
+          
+          # CLEANUP: Delete temporary files so they aren't committed
+          rm -f issue_context.txt proxy.py
           
           git add .
           git commit -m "Assistant update: ${{ github.event.issue.title }}" || echo "No changes to commit"
