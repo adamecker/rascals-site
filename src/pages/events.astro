@@ -1,6 +1,7 @@
 ---
 // src/pages/events.astro
 import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
 ---
 
 <Layout title="Events - Rascals Bar">
@@ -9,11 +10,13 @@ import Layout from '../layouts/Layout.astro';
 
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <div class="w-full border border-neutral-800 bg-[#111111] p-4 shadow-2xl">
-          <img 
+          <Image 
             src="/images/birthday.jpg" 
             alt="Rascals Birthday Party Event" 
+            width={700}
+            height={500}
+            format="webp"
             class="w-full h-auto object-contain max-h-[500px] mx-auto"
-            onerror="this.style.display='none'"
           />
         </div>
 

@@ -2,6 +2,7 @@
 // src/pages/directions.astro
 import Layout from '../layouts/Layout.astro';
 import siteData from '../data/site.json';
+import { Image } from 'astro:assets';
 ---
 
 <Layout title="Directions - Rascals Bar">
@@ -44,11 +45,13 @@ import siteData from '../data/site.json';
         </div>
 
         <div class="lg:col-span-5 w-full border border-neutral-800 bg-[#111111] p-3 shadow-xl max-w-sm mx-auto lg:mx-0">
-          <img 
+          <Image 
             src="/images/gallery-2.jpeg" 
             alt="Rascals Bar Interior" 
+            width={500}
+            height={400}
+            format="webp"
             class="w-full h-auto object-contain max-h-[260px] mx-auto"
-            onerror="this.style.display='none'"
           />
         </div>
 

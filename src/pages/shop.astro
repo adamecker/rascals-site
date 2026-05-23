@@ -1,6 +1,7 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import shopData from '../data/shop.json';
+import { Image } from 'astro:assets';
 ---
 
 <Layout title="Shop | Rascals Bar">
@@ -13,7 +14,7 @@ import shopData from '../data/shop.json';
               class="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col items-center text-center cursor-pointer hover:bg-gray-700 transition-colors duration-200"
               onclick={`openShopModal(${index})`}
             >
-              <img src={item.image} alt={item.name} class="w-48 h-48 object-contain mb-4" />
+              <Image src={item.image} alt={item.name} width={400} height={400} format="webp" class="w-48 h-48 object-contain mb-4" />
               <h2 class="text-white text-2xl font-bold mb-2">{item.name}</h2>
               <p class="text-gray-300 text-lg">{item.description}</p>
             </button>
@@ -38,7 +39,7 @@ import shopData from '../data/shop.json';
           ❮
         </button>
         
-        <img id="shop_modal_image" src="" alt="Shop Item Full Screen" class="max-w-full h-auto max-h-[85vh] object-contain rounded-none shadow-2xl" />
+        <Image id="shop_modal_image" src="" alt="Shop Item Full Screen" width={1000} height={750} format="webp" class="max-w-full h-auto max-h-[85vh] object-contain rounded-none shadow-2xl" />
 
         <button 
           class="absolute right-4 z-50 bg-black/50 hover:bg-[#ec4899] text-white rounded-full p-3 border border-white/20 text-xl font-bold transition-all"

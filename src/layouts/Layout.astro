@@ -2,6 +2,7 @@
 // src/layouts/Layout.astro
 import siteData from '../data/site.json';
 import '../styles/global.css';
+import { Image } from 'astro:assets';
 const { title } = Astro.props;
 
 // Get the current path to determine which link to highlight
@@ -29,7 +30,7 @@ const currentPath = Astro.url.pathname;
       <div class="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row items-center justify-between gap-4">
         
         <a href="/" class="shrink-0">
-          <img src="/images/logo.png" alt="Rascals Bar Logo" class="h-16 md:h-20 object-contain mx-auto lg:mx-0" onerror="this.style.display='none'" />
+          <Image src="/images/logo.png" alt="Rascals Bar Logo" width={150} height={80} format="webp" class="h-16 md:h-20 object-contain mx-auto lg:mx-0" />
         </a>
         
         <nav class="w-full lg:w-auto">
@@ -85,7 +86,7 @@ const currentPath = Astro.url.pathname;
             class="w-10 h-10 rounded-full overflow-hidden transition-transform hover:scale-110 flex items-center justify-center shadow-lg bg-[#3b5998]"
             aria-label="Facebook"
           >
-            <img src="/images/facebook.png" alt="Facebook" class="w-full h-full object-cover" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg'" />
+            <Image src="/images/facebook.png" alt="Facebook" width={40} height={40} format="webp" class="w-full h-full object-cover" />
           </a>
         </div>
         

@@ -2,6 +2,7 @@
 // src/pages/menu.astro
 import Layout from '../layouts/Layout.astro';
 import menuData from '../data/menu.json';
+import { Image } from 'astro:assets';
 ---
 
 <Layout title="Menu - Rascals Bar">
@@ -29,12 +30,12 @@ import menuData from '../data/menu.json';
       <div class="space-y-4 pt-2">
         <p class="text-gray-500 text-xs uppercase tracking-widest">Tap a page to view full screen</p>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-          {menuData.menu_images.map((img, index) => (
+          {menuData.menu_images.map((imgSrc, index) => (
             <button 
               data-index={index}
               class="menu-trigger w-full block bg-transparent transition-all duration-500 group cursor-pointer overflow-hidden rounded-md hover:shadow-[0_0_40px_rgba(236,72,153,0.15)] focus:outline-none"
             >
-              <img src={img} alt={`Rascals Menu Page ${index + 1}`} class="w-full h-auto object-contain mx-auto transition-all duration-700 group-hover:scale-[1.02] opacity-90 group-hover:opacity-100" />
+              <Image src={imgSrc} alt={`Rascals Menu Page ${index + 1}`} width={800} height={600} format="webp" class="w-full h-auto object-contain mx-auto transition-all duration-700 group-hover:scale-[1.02] opacity-90 group-hover:opacity-100" />
             </button>
           ))}
         </div>
