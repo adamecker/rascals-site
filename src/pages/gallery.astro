@@ -28,6 +28,9 @@ const galleryImages = Object.keys(imageFiles)
             <img 
               src={imgSrc} 
               alt="Rascals Bar Gallery" 
+              width="300"
+              height="300"
+              loading="lazy"
               class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100"
             />
             <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
@@ -54,7 +57,7 @@ const galleryImages = Object.keys(imageFiles)
         ❮
       </button>
       
-      <img id="modal_image" src="" alt="Full Screen" class="max-w-full h-auto max-h-[85vh] object-contain rounded-none shadow-2xl" />
+      <img id="modal_image" src="" alt="Full Screen" loading="lazy" class="max-w-full h-auto max-h-[85vh] object-contain rounded-none shadow-2xl" />
 
       <button 
         class="absolute right-4 z-50 bg-black/50 hover:bg-[#ec4899] text-white rounded-full p-3 border border-white/20 text-xl font-bold transition-all"
