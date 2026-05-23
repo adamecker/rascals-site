@@ -40,20 +40,20 @@ const sliderItems = [
         </div>
       
         <div class="flex items-center justify-center gap-4 mt-6 z-10 relative">
-          <button id="prev-btn" class="w-7 h-7 flex items-center justify-center border border-gray-700 hover:border-white transition-colors duration-300 focus:outline-none shrink-0" aria-label="Previous">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 text-white">
+          <button id="prev-btn" class="w-7 h-7 flex items-center justify-center border border-gray-400 hover:border-[#0224D9] transition-colors duration-300 focus:outline-none shrink-0" aria-label="Previous">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 text-gray-700 group-hover:text-[#0224D9]">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
           </button>
     
           <div class="flex gap-2 flex-wrap justify-center max-w-[150px]">
             {sliderItems.map((_, index) => (
-              <button class={`carousel-dot w-2 h-2 bg-white rounded-full transition-opacity duration-300 ${index === 0 ? 'opacity-100' : 'opacity-30'}`} aria-label={`Slide ${index + 1}`}></button>
+              <button class={`carousel-dot w-2 h-2 rounded-full transition-all duration-300 ${index === 0 ? 'bg-[#E52421] opacity-100' : 'bg-gray-400 opacity-70 hover:opacity-100'}`} aria-label={`Slide ${index + 1}`}></button>
             ))}
           </div>
 
-          <button id="next-btn" class="w-7 h-7 flex items-center justify-center border border-gray-700 hover:border-white transition-colors duration-300 focus:outline-none shrink-0" aria-label="Next">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 text-white">
+          <button id="next-btn" class="w-7 h-7 flex items-center justify-center border border-gray-400 hover:border-[#0224D9] transition-colors duration-300 focus:outline-none shrink-0" aria-label="Next">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 text-gray-700 group-hover:text-[#0224D9]">
               <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
           </button>
