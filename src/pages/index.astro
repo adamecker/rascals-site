@@ -48,7 +48,7 @@ const sliderItems = [
     
           <div class="flex gap-2 flex-wrap justify-center max-w-[150px]">
             {sliderItems.map((_, index) => (
-              <button class={`carousel-dot w-2 h-2 rounded-full transition-all duration-300 ${index === 0 ? 'bg-[#E52421] opacity-100' : 'bg-gray-400 opacity-70 hover:opacity-100'}`} aria-label={`Slide ${index + 1}`}></button>
+              <button class={`carousel-dot w-2 h-2 rounded-full transition-all duration-300`} aria-label={`Slide ${index + 1}`}></button>
             ))}
           </div>
 
@@ -87,6 +87,15 @@ const sliderItems = [
     const nextBtn = document.getElementById('next-btn');
     let intervalId;
 
+    const rainbowColors = [
+      'bg-[#E52421]', // Red
+      'bg-[#F59120]', // Orange
+      'bg-[#FDF01A]', // Yellow
+      'bg-[#399443]', // Green
+      'bg-[#0224D9]', // Blue
+      'bg-[#7916E5]'  // Violet
+    ];
+
     function updateCarousel(targetIndex) {
       if (!slides.length) return;
       
@@ -94,11 +103,9 @@ const sliderItems = [
         if (index === targetIndex) {
           slide.classList.remove('opacity-0', 'translate-x-full', '-translate-x-full', 'pointer-events-none', 'absolute', 'inset-0');
           slide.classList.add('opacity-100', 'translate-x-0', 'relative');
-          dots[index].classList.replace('opacity-30', 'opacity-100');
         } else {
           slide.classList.remove('opacity-100', 'translate-x-0', 'relative');
           slide.classList.add('opacity-0', 'absolute', 'inset-0', 'pointer-events-none');
-          dots[index].classList.replace('opacity-100', 'opacity-30');
           
           if (index < targetIndex) {
             slide.classList.add('-translate-x-full');
@@ -109,6 +116,19 @@ const sliderItems = [
           }
         }
       });
+
+      dots.forEach((dot, index) => {
+        dot.classList.remove(...rainbowColors, 'opacity-100'); // Remove previous color and active state
+        dot.classList.add(rainbowColors[index % rainbowColors.length]); // Add new color
+        if (index === targetIndex) {
+          dot.classList.add('opacity-100');
+          dot.classList.remove('opacity-70', 'hover:opacity-100');
+        } else {
+          dot.classList.add('opacity-70', 'hover:opacity-100');
+          dot.classList.remove('opacity-100');
+        }
+      });
+
       currentSlide = targetIndex;
     }
 
@@ -136,6 +156,8 @@ const sliderItems = [
       dot.addEventListener('click', () => { updateCarousel(index); resetInterval(); });
     });
 
+    // Initialize carousel on page load
+    updateCarousel(currentSlide);
     // Init interval
     intervalId = setInterval(nextSlide, 4500);
 
