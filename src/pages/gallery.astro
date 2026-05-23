@@ -1,6 +1,7 @@
 ---
 // src/pages/gallery.astro
 import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
 
 // 1. Use Vite's built-in glob to scan the files safely during the build step (No 'fs' needed!)
 const imageFiles = import.meta.glob('/public/images/gallery-*.*', { eager: true });
@@ -25,12 +26,13 @@ const galleryImages = Object.keys(imageFiles)
             class="aspect-square bg-[#111111] overflow-hidden border border-neutral-800 cursor-pointer relative group shadow-lg" 
             onclick={`openLightbox(${index})`}
           >
-            <img 
+            <Image 
               src={imgSrc} 
               alt="Rascals Bar Gallery" 
-              width="300"
-              height="300"
-              loading="lazy"
+              width={600}
+              height={600}
+              format="webp"
+              loading={index < 6 ? "eager" : "lazy"}
               class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100"
             />
             <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
