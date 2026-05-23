@@ -55,9 +55,30 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          # Fetch ONLY the latest comment
-          LATEST_COMMENT=$(gh issue view ${{ github.event.issue.number }} --json comments --jq '.comments[-1].body')
-          echo "$LATEST_COMMENT" > issue_context.txt
+          # Fetch the issue payload in one API call
+          ISSUE_JSON=$(gh issue view ${{ github.event.issue.number }} --json title,body,comments)
+          
+          # Extract the pieces
+          TITLE=$(echo "$ISSUE_JSON" | jq -r '.title')
+          BODY=$(echo "$ISSUE_JSON" | jq -r '.body')
+          LATEST_COMMENT=$(echo "$ISSUE_JSON" | jq -r '.comments[-1].body // "No comments available."')
+          
+          # Build a clean context file for Aider
+          cat << EOF > issue_context.txt
+          Please resolve the following GitHub Issue.
+          
+          ISSUE TITLE:
+          $TITLE
+          
+          ISSUE DESCRIPTION:
+          $BODY
+          
+          LATEST INSTRUCTION / ACTION REQUIRED:
+          $LATEST_COMMENT
+          EOF
+          
+          echo "Context successfully gathered:"
+          cat issue_context.txt
 
       - name: Run Aider Natively
         env:
