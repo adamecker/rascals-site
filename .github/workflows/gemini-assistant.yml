@@ -75,7 +75,14 @@ jobs:
           
           LATEST INSTRUCTION / ACTION REQUIRED:
           $LATEST_COMMENT
+          
+          CURRENT PR BRANCH DIFF (Changes already made vs main):
           EOF
+          
+          # Append the actual git diff so Gemini knows what was already changed
+          echo '```diff' >> issue_context.txt
+          git diff origin/main...HEAD >> issue_context.txt || true
+          echo '```' >> issue_context.txt
           
           echo "Context successfully gathered:"
           cat issue_context.txt
