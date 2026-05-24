@@ -3,6 +3,7 @@
 import Layout from '../layouts/Layout.astro';
 import specialsData from '../data/specials.json';
 import { Image } from 'astro:assets';
+import gallery1 from '../../public/images/gallery-1.jpeg';
 
 // Combine the Happy Hour block and the daily schedule into a single array for the slider
 const sliderItems = [
@@ -64,7 +65,7 @@ const sliderItems = [
     <section class="pb-16 px-4 max-w-4xl mx-auto pt-4">
       <a href="/gallery" class="block border border-neutral-800 shadow-2xl overflow-hidden hover:border-[#ec4899] transition-colors duration-300 group relative bg-[#111111]">
         <Image 
-          src="/images/gallery-1.jpeg" 
+          src={gallery1} 
           alt="Rascals Bar Atmosphere" 
           width={800}
           height={500}

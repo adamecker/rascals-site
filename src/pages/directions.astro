@@ -3,6 +3,7 @@
 import Layout from '../layouts/Layout.astro';
 import siteData from '../data/site.json';
 import { Image } from 'astro:assets';
+import gallery2 from '../../public/images/gallery-2.jpeg';
 ---
 
 <Layout title="Directions - Rascals Bar">
@@ -46,7 +47,7 @@ import { Image } from 'astro:assets';
 
         <div class="lg:col-span-5 w-full border border-neutral-800 bg-[#111111] p-3 shadow-xl max-w-sm mx-auto lg:mx-0">
           <Image 
-            src="/images/gallery-2.jpeg" 
+            src={gallery2} 
             alt="Rascals Bar Interior" 
             width={500}
             height={400}

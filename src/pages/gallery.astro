@@ -7,13 +7,18 @@ import { Image } from 'astro:assets';
 const imageFiles = import.meta.glob('/public/images/gallery-*.*', { eager: true });
 
 // 2. Extract the file paths, strip the '/public' part so the URLs work, and sort them
-const galleryImages = Object.keys(imageFiles)
-  .map(file => file.replace('/public', ''))
+const galleryImages = Object.entries(imageFiles)
+  .map(([path, module]) => ({
+    originalSrc: path.replace('/public', ''),
+    asset: (module as any).default,
+  }))
   .sort((a, b) => {
-    const numA = parseInt(a.replace(/\D/g, '')) || 0;
-    const numB = parseInt(b.replace(/\D/g, '')) || 0;
+    const numA = parseInt(a.originalSrc.replace(/\D/g, '')) || 0;
+    const numB = parseInt(b.originalSrc.replace(/\D/g, '')) || 0;
     return numA - numB;
   });
+
+const lightboxImages = galleryImages.map(img => img.originalSrc);
 ---
 
 <Layout title="Gallery | Rascals Bar">
@@ -21,13 +26,13 @@ const galleryImages = Object.keys(imageFiles)
     <div class="max-w-5xl mx-auto">
 
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {galleryImages.map((imgSrc, index) => (
+        {galleryImages.map((img, index) => (
           <div 
             class="aspect-square bg-[#111111] overflow-hidden border border-neutral-800 cursor-pointer relative group shadow-lg" 
             onclick={`openLightbox(${index})`}
           >
             <Image 
-              src={imgSrc} 
+              src={img.asset} 
               alt="Rascals Bar Gallery" 
               width={600}
               height={600}
@@ -74,7 +79,7 @@ const galleryImages = Object.keys(imageFiles)
     </form>
   </dialog>
 
-  <script is:inline define:vars={{ galleryImages }}>
+  <script is:inline define:vars={{ galleryImages: lightboxImages }}>
     let currentIndex = 0;
 
     window.openLightbox = function(index) {
