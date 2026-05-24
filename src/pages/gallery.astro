@@ -3,22 +3,23 @@
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 
-// 1. Use Vite's built-in glob to scan the files safely during the build step (No 'fs' needed!)
-const imageFiles = import.meta.glob('/public/images/gallery-*.*', { eager: true });
+// Dynamically import all gallery images so Astro processes them at build time
+const imageFiles = import.meta.glob('/src/assets/gallery/*.{jpeg,jpg,png}', { eager: true });
 
-// 2. Extract the file paths, strip the '/public' part so the URLs work, and sort them
-const galleryImages = Object.entries(imageFiles)
+// Extract the file paths, sort them numerically, and map to their default asset objects
+const images = Object.entries(imageFiles)
   .map(([path, module]) => ({
-    originalSrc: path.replace('/public', ''),
+    path,
     asset: (module as any).default,
   }))
   .sort((a, b) => {
-    const numA = parseInt(a.originalSrc.replace(/\D/g, '')) || 0;
-    const numB = parseInt(b.originalSrc.replace(/\D/g, '')) || 0;
+    const numA = parseInt(a.path.replace(/\D/g, '')) || 0;
+    const numB = parseInt(b.path.replace(/\D/g, '')) || 0;
     return numA - numB;
-  });
+  })
+  .map(entry => entry.asset);
 
-const lightboxImages = galleryImages.map(img => img.originalSrc);
+const lightboxImages = images.map(img => img.src);
 ---
 
 <Layout title="Gallery | Rascals Bar">
@@ -26,16 +27,15 @@ const lightboxImages = galleryImages.map(img => img.originalSrc);
     <div class="max-w-5xl mx-auto">
 
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {galleryImages.map((img, index) => (
+        {images.map((img, index) => (
           <div 
             class="aspect-square bg-[#111111] overflow-hidden border border-neutral-800 cursor-pointer relative group shadow-lg" 
             onclick={`openLightbox(${index})`}
           >
             <Image 
-              src={img.originalSrc} 
+              src={img} 
               alt="Rascals Bar Gallery" 
               width={600}
-              height={600}
               format="webp"
               loading={index < 6 ? "eager" : "lazy"}
               class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100"
