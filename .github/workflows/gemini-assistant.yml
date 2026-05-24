@@ -90,7 +90,7 @@ jobs:
           
           echo "Starting Aider..."
           aider \
-            --model gemini/gemini-2.5-flash \
+            --model gemini/gemini-3.5-flash \
             --yes \
             --verbose \
             --no-auto-commits \
