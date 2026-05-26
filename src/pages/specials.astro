@@ -5,20 +5,20 @@ import specialsData from '../data/specials.json';
 ---
 
 <Layout title="Specials - Rascals Bar">
-  <main class="w-full bg-black py-12 px-4 min-h-[75vh] flex items-center">
+  <main class="w-full bg-gray-50 py-12 px-4 min-h-[75vh] flex items-center">
     <div class="max-w-2xl mx-auto w-full">
 
-      <div class="space-y-8 text-xl font-light leading-relaxed text-gray-300 text-left">
+      <div class="space-y-8 text-xl font-light leading-relaxed text-gray-700 text-left">
         
         {specialsData.schedule.map((dayData, index) => (
-          <div class={index !== specialsData.schedule.length - 1 ? "border-b border-neutral-900 pb-5" : ""}>
-            <p class="text-white font-bold tracking-wider uppercase text-lg mb-1.5">{dayData.day}</p>
-            <div class="space-y-1 text-gray-400 text-[17px]">
+          <div class={index !== specialsData.schedule.length - 1 ? "border-b border-gray-200 pb-5" : ""}>
+            <p class="text-gray-900 font-bold tracking-wider uppercase text-lg mb-1.5">{dayData.day}</p>
+            <div class="space-y-1 text-gray-600 text-[17px]">
               {dayData.items.map(item => (
                 <p set:html={item}></p>
               ))}
               {dayData.highlight && (
-                <p class="text-[#ec4899] font-medium text-sm tracking-wider uppercase pt-1">{dayData.highlight}</p>
+                <p class="text-[#0224D9] font-medium text-sm tracking-wider uppercase pt-1">{dayData.highlight}</p>
               )}
             </div>
           </div>

@@ -5,22 +5,22 @@ import menuData from '../data/menu.json';
 ---
 
 <Layout title="Menu - Rascals Bar">
-  <main class="w-full bg-black py-12 md:py-16 px-4 text-center">
+  <main class="w-full bg-gray-50 py-12 md:py-16 px-4 text-center">
     <div class="max-w-5xl mx-auto space-y-8">
       
       <div class="space-y-6">
         <div class="space-y-2">
-          <h3 class="text-[#ec4899] text-xs md:text-sm font-bold uppercase tracking-[0.2em] opacity-90">Served Anytime</h3>
-          <p class="text-white text-base md:text-lg font-light tracking-wider max-w-2xl mx-auto">
+          <h3 class="text-[#E52421] text-xs md:text-sm font-bold uppercase tracking-[0.2em] opacity-90">Served Anytime</h3>
+          <p class="text-gray-900 text-base md:text-lg font-light tracking-wider max-w-2xl mx-auto">
             {menuData.served_anytime}
           </p>
         </div>
 
-        <div class="w-24 h-[1px] bg-gradient-to-r from-transparent via-neutral-600 to-transparent mx-auto my-2"></div>
+        <div class="w-24 h-[1px] bg-gradient-to-r from-transparent via-gray-400 to-transparent mx-auto my-2"></div>
 
         <div class="space-y-2">
-          <h3 class="text-[#ec4899] text-xs md:text-sm font-bold uppercase tracking-[0.2em] opacity-90">Full Menu Hours</h3>
-          <p class="text-gray-300 text-base md:text-lg font-normal tracking-wide uppercase">
+          <h3 class="text-[#E52421] text-xs md:text-sm font-bold uppercase tracking-[0.2em] opacity-90">Full Menu Hours</h3>
+          <p class="text-gray-700 text-base md:text-lg font-normal tracking-wide uppercase">
             {menuData.intro_text}
           </p>
         </div>
@@ -32,7 +32,7 @@ import menuData from '../data/menu.json';
           {menuData.menu_images.map((img, index) => (
             <button 
               data-index={index}
-              class="menu-trigger w-full block bg-transparent transition-all duration-500 group cursor-pointer overflow-hidden rounded-md hover:shadow-[0_0_40px_rgba(236,72,153,0.15)] focus:outline-none"
+              class="menu-trigger w-full block bg-transparent transition-all duration-500 group cursor-pointer overflow-hidden rounded-md hover:shadow-[0_0_40px_rgba(229,36,33,0.15)] focus:outline-none"
             >
               <img src={img} alt={`Rascals Menu Page ${index + 1}`} class="w-full h-auto object-contain mx-auto transition-all duration-700 group-hover:scale-[1.02] opacity-90 group-hover:opacity-100" />
             </button>

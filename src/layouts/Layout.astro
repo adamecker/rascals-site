@@ -2,6 +2,7 @@
 // src/layouts/Layout.astro
 import siteData from '../data/site.json';
 import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
 const { title } = Astro.props;
 
 // Get the current path to determine which link to highlight
@@ -9,11 +10,12 @@ const currentPath = Astro.url.pathname;
 ---
 
 <!doctype html>
-<html lang="en" data-theme="rascals" class="bg-black text-white">
+<html lang="en" data-theme="rascals" class="bg-white text-gray-900">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>{title}</title>
+    <ViewTransitions />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300;400;600&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
@@ -23,56 +25,49 @@ const currentPath = Astro.url.pathname;
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
 	</head>
-	<body class="flex flex-col min-h-screen bg-black font-sans antialiased text-white">
+	<body class="flex flex-col min-h-screen bg-white font-sans antialiased text-gray-900 overflow-x-hidden">
         
-    <header class="w-full py-4 bg-black border-b border-neutral-800">
-      <div class="max-w-6xl mx-auto px-4 flex flex-col lg:flex-row items-center justify-between gap-4">
-        
-        <a href="/" class="shrink-0">
-          <img src="/images/logo.png" alt="Rascals Bar Logo" class="h-16 md:h-20 object-contain mx-auto lg:mx-0" onerror="this.style.display='none'" />
+<header class="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-100">
+  <div class="h-2 w-full bg-[linear-gradient(to_right,#E52421_0%,#E52421_16.66%,#F59120_16.66%,#F59120_33.33%,#FDF01A_33.33%,#FDF01A_50%,#399443_50%,#399443_66.66%,#0224D9_66.66%,#0224D9_83.33%,#7916E5_83.33%,#7916E5_100%)]"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-20">
+      <div class="flex-shrink-0 relative">
+        <a href="/" class="block mt-[-16px]">
+          <div class="bg-white p-1.5 rounded-full inline-block drop-shadow-md">
+            <img src="/images/logo.png" alt="Rascals Logo" class="h-16 w-auto" onerror="this.style.display='none'" />
+          </div>
+          <span class="ml-3 text-3xl font-extrabold tracking-tight text-gray-900 align-middle">RASCALS</span>
         </a>
-        
-        <nav class="w-full lg:w-auto">
-          <ul class="flex flex-wrap justify-center lg:justify-end gap-x-4 md:gap-x-5 gap-y-2 text-sm md:text-base font-light tracking-wider uppercase">
-            <li>
-              <a href="/" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Home</a>
-            </li>
-            <li>
-              <a href="/about-us" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/about-us' || currentPath === '/about-us/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>About Us</a>
-            </li>
-            <li>
-              <a href="/menu" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/menu' || currentPath === '/menu/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Menu</a>
-            </li>
-            <li>
-              <a href="/events" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/events' || currentPath === '/events/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Events</a>
-            </li>
-            <li>
-              <a href="/gallery" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/gallery' || currentPath === '/gallery/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Gallery</a>
-            </li>
-            <li>
-              <a href="/specials" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/specials' || currentPath === '/specials/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Specials</a>
-            </li>
-            <li>
-              <a href="/shop" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/shop' || currentPath === '/shop/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Shop</a>
-            </li>
-            <li>
-              <a href="/directions" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/directions' || currentPath === '/directions/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Directions</a>
-            </li>
-            <li>
-              <a href="/links" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/links' || currentPath === '/links/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Links</a>
-            </li>
-            <li>
-              <a href="/contact" class={`transition-colors hover:text-[#ec4899] ${currentPath === '/contact' || currentPath === '/contact/' ? 'text-[#ec4899] font-normal' : 'text-white'}`}>Contact</a>
-            </li>
-          </ul>
-        </nav>
       </div>
-    </header>
+      <nav class="hidden md:flex space-x-8">
+         <a href="/" class={`font-bold text-lg transition-all hover:-translate-y-1 ${currentPath === '/' ? 'text-[#E52421] border-b-2 border-[#E52421]' : 'text-gray-900 hover:text-[#E52421]'}`}>Home</a>
+         <a href="/menu" class={`font-bold text-lg transition-all hover:-translate-y-1 ${currentPath === '/menu' ? 'text-[#F59120] border-b-2 border-[#F59120]' : 'text-gray-900 hover:text-[#F59120]'}`}>Menu</a>
+         <a href="/specials" class={`font-bold text-lg transition-all hover:-translate-y-1 ${currentPath === '/specials' ? 'text-[#399443] border-b-2 border-[#399443]' : 'text-gray-900 hover:text-[#399443]'}`}>Specials</a>
+         <a href="/events" class={`font-bold text-lg transition-all hover:-translate-y-1 ${currentPath === '/events' ? 'text-[#0224D9] border-b-2 border-[#0224D9]' : 'text-gray-900 hover:text-[#0224D9]'}`}>Events</a>
+         <a href="/shop" class={`font-bold text-lg transition-all hover:-translate-y-1 ${currentPath === '/shop' ? 'text-[#7916E5] border-b-2 border-[#7916E5]' : 'text-gray-900 hover:text-[#7916E5]'}`}>Shop</a>
+      </nav>
+      <div class="md:hidden flex items-center">
+        <button id="mobile-menu-btn" class="p-2 text-gray-900">
+          <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl shadow-lg border-b border-gray-200">
+    <div class="px-4 pt-2 pb-6 flex flex-col space-y-2">
+       <a href="/" class="p-4 text-2xl font-bold text-gray-900">Home</a>
+       <a href="/menu" class="p-4 text-2xl font-bold text-gray-900">Menu</a>
+       <a href="/specials" class="p-4 text-2xl font-bold text-gray-900">Specials</a>
+       <a href="/events" class="p-4 text-2xl font-bold text-gray-900">Events</a>
+       <a href="/shop" class="p-4 text-2xl font-bold text-gray-900">Shop</a>
+    </div>
+  </div>
+</header>
 
 		<slot />
 
-    <footer class="mt-auto py-12 bg-black border-t border-neutral-800">
-      <div class="text-center text-gray-400 leading-relaxed px-4 flex flex-col items-center">
+    <footer class="mt-auto py-12 bg-gray-100 border-t border-gray-200">
+      <div class="text-center text-gray-700 leading-relaxed px-4 flex flex-col items-center">
         <p class="text-lg mb-1">{siteData.email}</p>
         <p class="text-lg">{siteData.phone}</p>
         <p class="text-lg mb-4">{siteData.address}</p>
@@ -89,12 +84,19 @@ const currentPath = Astro.url.pathname;
           </a>
         </div>
         
-        <p class="font-bold text-white uppercase tracking-widest mb-2">Hours</p>
+        <p class="font-bold text-gray-900 uppercase tracking-widest mb-2">Hours</p>
         {siteData.hours.map((hour) => (
-          <p class="text-gray-300">{hour}</p>
+          <p class="text-gray-600">{hour}</p>
         ))}
       </div>
     </footer>
     
+    <script>
+      document.addEventListener('astro:page-load', () => {
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+        if(btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+      });
+    </script>
 	</body>
 </html>

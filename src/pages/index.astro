@@ -14,24 +14,25 @@ const sliderItems = [
 ---
 
 <Layout title="Rascals Bar">
-  <main class="w-full bg-black">
+  <main class="w-full bg-gray-50">
     
     <section class="py-8 px-4 max-w-3xl mx-auto">
-      <div class="border border-neutral-800 px-6 py-8 text-center bg-[#111111] shadow-2xl min-h-[220px] flex flex-col justify-between relative overflow-hidden">
+      <div class="border border-gray-200 px-6 py-8 text-center bg-white shadow-2xl min-h-[220px] flex flex-col justify-between relative overflow-hidden">
         <div></div>
         <div class="relative min-h-[140px] flex items-center justify-center">
           {sliderItems.map((special, index) => (
             <div 
               class={`carousel-slide transition-all duration-700 flex flex-col justify-center w-full px-4 text-center ${index === 0 ? 'opacity-100 transform translate-x-0 relative' : 'opacity-0 absolute inset-0 translate-x-full pointer-events-none'}`}
             >
-              <h2 class="text-2xl md:text-3xl font-heading font-bold mb-2 text-[#ec4899] uppercase tracking-widest">
+              <h2 class="text-2xl md:text-3xl font-heading font-bold mb-2 text-[#0224D9] uppercase tracking-widest flex items-center justify-center">
                 {special.title}
+                <span class="live-dot hidden w-3 h-3 bg-[#E52421] rounded-full drop-shadow-md ml-3" data-day={special.title}></span>
               </h2>
-              {index === 0 && <div class="w-12 h-0.5 bg-white mx-auto my-2 opacity-20"></div>}
-              <p class={`text-lg md:text-xl font-light text-white leading-relaxed tracking-wider ${index !== 0 ? 'mt-1' : 'uppercase'}`}>
+              {index === 0 && <div class="w-12 h-0.5 bg-gray-300 mx-auto my-2 opacity-80"></div>}
+              <p class={`text-lg md:text-xl font-light text-gray-800 leading-relaxed tracking-wider ${index !== 0 ? 'mt-1' : 'uppercase'}`}>
                 {special.subtitle}
               </p>
-              <a href="/specials" class="mt-4 text-sm text-gray-400 hover:text-[#ec4899] underline underline-offset-4 transition-colors duration-300 z-20 relative block w-max mx-auto">
+              <a href="/specials" class="mt-4 text-sm text-gray-600 hover:text-[#0224D9] underline underline-offset-4 transition-colors duration-300 z-20 relative block w-max mx-auto">
                 View All Specials
               </a>
             </div>
@@ -39,20 +40,20 @@ const sliderItems = [
         </div>
       
         <div class="flex items-center justify-center gap-4 mt-6 z-10 relative">
-          <button id="prev-btn" class="w-7 h-7 flex items-center justify-center border border-gray-700 hover:border-white transition-colors duration-300 focus:outline-none shrink-0" aria-label="Previous">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 text-white">
+          <button id="prev-btn" class="w-7 h-7 flex items-center justify-center border border-gray-400 hover:border-[#0224D9] transition-colors duration-300 focus:outline-none shrink-0" aria-label="Previous">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 text-gray-700 group-hover:text-[#0224D9]">
               <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
           </button>
     
           <div class="flex gap-2 flex-wrap justify-center max-w-[150px]">
             {sliderItems.map((_, index) => (
-              <button class={`carousel-dot w-2 h-2 bg-white rounded-full transition-opacity duration-300 ${index === 0 ? 'opacity-100' : 'opacity-30'}`} aria-label={`Slide ${index + 1}`}></button>
+              <button class={`carousel-dot w-2 h-2 rounded-full transition-all duration-300`} aria-label={`Slide ${index + 1}`}></button>
             ))}
           </div>
 
-          <button id="next-btn" class="w-7 h-7 flex items-center justify-center border border-gray-700 hover:border-white transition-colors duration-300 focus:outline-none shrink-0" aria-label="Next">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 text-white">
+          <button id="next-btn" class="w-7 h-7 flex items-center justify-center border border-gray-400 hover:border-[#0224D9] transition-colors duration-300 focus:outline-none shrink-0" aria-label="Next">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-3.5 h-3.5 text-gray-700 group-hover:text-[#0224D9]">
               <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
             </svg>
           </button>
@@ -61,15 +62,15 @@ const sliderItems = [
     </section>
 
     <section class="pb-16 px-4 max-w-4xl mx-auto pt-4">
-      <a href="/gallery" class="block border border-neutral-800 shadow-2xl overflow-hidden hover:border-[#ec4899] transition-colors duration-300 group relative bg-[#111111]">
+      <a href="/gallery" class="block border border-gray-200 shadow-2xl overflow-hidden hover:border-[#E52421] transition-colors duration-300 group relative bg-white">
         <img 
           src="/images/gallery-1.jpeg" 
           alt="Rascals Bar Atmosphere" 
           class="w-full h-auto max-h-[500px] object-cover mx-auto transition-transform duration-500 opacity-80 group-hover:opacity-100 group-hover:scale-110"
           onerror="this.style.display='none'"
         />
-        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
-          <span class="text-[#ec4899] text-4xl drop-shadow-lg">⊕</span>
+        <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gray-100/40">
+          <span class="text-[#E52421] text-4xl drop-shadow-lg">⊕</span>
         </div>
       </a>
     </section>
@@ -78,62 +79,95 @@ const sliderItems = [
 </Layout>
 
 <script>
-  let currentSlide = 0;
-  const slides = document.querySelectorAll('.carousel-slide');
-  const dots = document.querySelectorAll('.carousel-dot');
-  const prevBtn = document.getElementById('prev-btn');
-  const nextBtn = document.getElementById('next-btn');
-  let intervalId;
+  document.addEventListener('astro:page-load', () => {
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.carousel-slide');
+    const dots = document.querySelectorAll('.carousel-dot');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    let intervalId;
 
-  function updateCarousel(targetIndex) {
-    if (!slides.length) return;
-    
-    slides.forEach((slide, index) => {
-      if (index === targetIndex) {
-        slide.classList.remove('opacity-0', 'translate-x-full', '-translate-x-full', 'pointer-events-none', 'absolute', 'inset-0');
-        slide.classList.add('opacity-100', 'translate-x-0', 'relative');
-        dots[index].classList.replace('opacity-30', 'opacity-100');
-      } else {
-        slide.classList.remove('opacity-100', 'translate-x-0', 'relative');
-        slide.classList.add('opacity-0', 'absolute', 'inset-0', 'pointer-events-none');
-        dots[index].classList.replace('opacity-100', 'opacity-30');
-        
-        if (index < targetIndex) {
-          slide.classList.add('-translate-x-full');
-          slide.classList.remove('translate-x-full');
+    const rainbowColors = [
+      'bg-[#E52421]', // Red
+      'bg-[#F59120]', // Orange
+      'bg-[#FDF01A]', // Yellow
+      'bg-[#399443]', // Green
+      'bg-[#0224D9]', // Blue
+      'bg-[#7916E5]'  // Violet
+    ];
+
+    function updateCarousel(targetIndex) {
+      if (!slides.length) return;
+      
+      slides.forEach((slide, index) => {
+        if (index === targetIndex) {
+          slide.classList.remove('opacity-0', 'translate-x-full', '-translate-x-full', 'pointer-events-none', 'absolute', 'inset-0');
+          slide.classList.add('opacity-100', 'translate-x-0', 'relative');
         } else {
-          slide.classList.add('translate-x-full');
-          slide.classList.remove('-translate-x-full');
+          slide.classList.remove('opacity-100', 'translate-x-0', 'relative');
+          slide.classList.add('opacity-0', 'absolute', 'inset-0', 'pointer-events-none');
+          
+          if (index < targetIndex) {
+            slide.classList.add('-translate-x-full');
+            slide.classList.remove('translate-x-full');
+          } else {
+            slide.classList.add('translate-x-full');
+            slide.classList.remove('-translate-x-full');
+          }
         }
+      });
+
+      dots.forEach((dot, index) => {
+        dot.classList.remove(...rainbowColors, 'opacity-100'); // Remove previous color and active state
+        dot.classList.add(rainbowColors[index % rainbowColors.length]); // Add new color
+        if (index === targetIndex) {
+          dot.classList.add('opacity-100');
+          dot.classList.remove('opacity-70', 'hover:opacity-100');
+        } else {
+          dot.classList.add('opacity-70', 'hover:opacity-100');
+          dot.classList.remove('opacity-100');
+        }
+      });
+
+      currentSlide = targetIndex;
+    }
+
+    function nextSlide() {
+      let target = currentSlide + 1;
+      if (target >= slides.length) target = 0;
+      updateCarousel(target);
+    }
+
+    function prevSlide() {
+      let target = currentSlide - 1;
+      if (target < 0) target = slides.length - 1;
+      updateCarousel(target);
+    }
+
+    function resetInterval() {
+      clearInterval(intervalId);
+      intervalId = setInterval(nextSlide, 4500);
+    }
+
+    prevBtn?.addEventListener('click', () => { prevSlide(); resetInterval(); });
+    nextBtn?.addEventListener('click', () => { nextSlide(); resetInterval(); });
+    
+    dots.forEach((dot, index) => {
+      dot.addEventListener('click', () => { updateCarousel(index); resetInterval(); });
+    });
+
+    // Initialize carousel on page load
+    updateCarousel(currentSlide);
+    // Init interval
+    intervalId = setInterval(nextSlide, 4500);
+
+    const dayMap = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
+    const today = dayMap[new Date().getDay()];
+    document.querySelectorAll('.live-dot').forEach(dot => {
+      if(dot.getAttribute('data-day') === today) {
+        dot.classList.remove('hidden');
+        dot.classList.add('inline-block', 'animate-pulse-fast');
       }
     });
-    currentSlide = targetIndex;
-  }
-
-  function nextSlide() {
-    let target = currentSlide + 1;
-    if (target >= slides.length) target = 0;
-    updateCarousel(target);
-  }
-
-  function prevSlide() {
-    let target = currentSlide - 1;
-    if (target < 0) target = slides.length - 1;
-    updateCarousel(target);
-  }
-
-  function resetInterval() {
-    clearInterval(intervalId);
-    intervalId = setInterval(nextSlide, 4500);
-  }
-
-  prevBtn?.addEventListener('click', () => { prevSlide(); resetInterval(); });
-  nextBtn?.addEventListener('click', () => { nextSlide(); resetInterval(); });
-  
-  dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => { updateCarousel(index); resetInterval(); });
   });
-
-  // Init interval
-  intervalId = setInterval(nextSlide, 4500);
 </script>
