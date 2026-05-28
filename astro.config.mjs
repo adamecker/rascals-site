@@ -7,6 +7,6 @@ import cloudflare from '@astrojs/cloudflare';
 export default defineConfig({
   integrations: [tailwind()],
   adapter: cloudflare({
-    // imageService: 'cloudflare', // Removed as per instructions to fall back to Astro's default local image processing
+    imageService: 'compile'
   }),
 });
