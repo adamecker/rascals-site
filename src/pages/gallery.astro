@@ -1,18 +1,26 @@
 ---
+export const prerender = true;
 // src/pages/gallery.astro
 import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
 
-// 1. Use Vite's built-in glob to scan the files safely during the build step (No 'fs' needed!)
-const imageFiles = import.meta.glob('/public/images/gallery-*.*', { eager: true });
+// Dynamically import all gallery images so Astro processes them at build time
+const imageFiles = import.meta.glob('/src/assets/gallery/*.{jpeg,jpg,png}', { eager: true });
 
-// 2. Extract the file paths, strip the '/public' part so the URLs work, and sort them
-const galleryImages = Object.keys(imageFiles)
-  .map(file => file.replace('/public', ''))
+// Extract the file paths, sort them numerically, and map to their default asset objects
+const images = Object.entries(imageFiles)
+  .map(([path, module]) => ({
+    path,
+    asset: (module as any).default,
+  }))
   .sort((a, b) => {
-    const numA = parseInt(a.replace(/\D/g, '')) || 0;
-    const numB = parseInt(b.replace(/\D/g, '')) || 0;
+    const numA = parseInt(a.path.replace(/\D/g, '')) || 0;
+    const numB = parseInt(b.path.replace(/\D/g, '')) || 0;
     return numA - numB;
-  });
+  })
+  .map(entry => entry.asset);
+
+const lightboxImages = images.map(img => img.src);
 ---
 
 <Layout title="Gallery | Rascals Bar">
@@ -20,14 +28,17 @@ const galleryImages = Object.keys(imageFiles)
     <div class="max-w-5xl mx-auto">
 
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {galleryImages.map((imgSrc, index) => (
+        {images.map((img, index) => (
           <div 
             class="aspect-square bg-[#111111] overflow-hidden border border-neutral-800 cursor-pointer relative group shadow-lg" 
             onclick={`openLightbox(${index})`}
           >
-            <img 
-              src={imgSrc} 
+            <Image 
+              src={img} 
               alt="Rascals Bar Gallery" 
+              width={600}
+              format="webp"
+              loading={index < 6 ? "eager" : "lazy"}
               class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 opacity-80 group-hover:opacity-100"
             />
             <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40">
@@ -54,7 +65,7 @@ const galleryImages = Object.keys(imageFiles)
         ❮
       </button>
       
-      <img id="modal_image" src="" alt="Full Screen" class="max-w-full h-auto max-h-[85vh] object-contain rounded-none shadow-2xl" />
+      <img id="modal_image" src="" alt="Full Screen" loading="lazy" class="max-w-full h-auto max-h-[85vh] object-contain rounded-none shadow-2xl" />
 
       <button 
         class="absolute right-4 z-50 bg-black/50 hover:bg-[#ec4899] text-white rounded-full p-3 border border-white/20 text-xl font-bold transition-all"
@@ -69,7 +80,7 @@ const galleryImages = Object.keys(imageFiles)
     </form>
   </dialog>
 
-  <script is:inline define:vars={{ galleryImages }}>
+  <script is:inline define:vars={{ galleryImages: lightboxImages }}>
     let currentIndex = 0;
 
     window.openLightbox = function(index) {
