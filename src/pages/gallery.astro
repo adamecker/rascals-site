@@ -80,7 +80,7 @@ const lightboxImages = images.map(img => img.src);
     </form>
   </dialog>
 
-  <script is:inline define:vars={{ galleryImages: lightboxImages }}>
+  <script define:vars={{ galleryImages: lightboxImages }}>
     let currentIndex = 0;
 
     window.openLightbox = function(index) {
