@@ -2,7 +2,7 @@
 export const prerender = true;
 // src/pages/gallery.astro
 import Layout from '../layouts/Layout.astro';
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 
 // Dynamically import all gallery images so Astro processes them at build time
 const imageFiles = import.meta.glob('/src/assets/gallery/*.{jpeg,jpg,png}', { eager: true });
@@ -20,7 +20,13 @@ const images = Object.entries(imageFiles)
   })
   .map(entry => entry.asset);
 
-const lightboxImages = images.map(img => img.src);
+// Generate optimized WebP images for the full-screen lightbox
+const lightboxImages = await Promise.all(
+  images.map(async (img) => {
+    const optimized = await getImage({ src: img, format: 'webp', width: 1200 });
+    return optimized.src;
+  })
+);
 ---
 
 <Layout title="Gallery | Rascals Bar">
