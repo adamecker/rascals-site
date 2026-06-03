@@ -32,7 +32,7 @@ The Assistant will automatically map the website, locate the correct files, and 
 
 The website layout automatically reads your gallery files. You do not need to edit any files manually to display new bar photos.
 
-1. **[Open the Gallery Upload Folder Link](https://github.com/adamecker/rascals-site/tree/main/public/images)**
+1. **[Open the Gallery Upload Folder Link](https://github.com/adamecker/rascals-site/tree/main/src/assets/gallery)**
 2. Click the **Add file** button at the top right, then select **Upload files**.
 3. Drag your new photos from your phone or computer directly onto the screen block. **Important Naming Rule:** Ensure your files are named sequentially using the `gallery-N.jpg` format (e.g., `gallery-31.jpg`, `gallery-32.jpg`) so they display in the correct order.
 4. Click the green **Commit changes** button at the bottom to save.
