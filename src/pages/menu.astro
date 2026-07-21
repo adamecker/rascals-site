@@ -43,10 +43,61 @@ import menuData from '../data/menu.json';
     </div>
   </main>
 
-  </Layout>
+  <!-- Lightbox Modal -->
+  <div id="lightbox" class="fixed inset-0 z-50 hidden bg-black/95 flex items-center justify-center p-4 cursor-zoom-out">
+    <button id="lightbox-close" class="absolute top-4 right-4 text-white hover:text-[#ec4899] text-4xl font-light focus:outline-none z-50" aria-label="Close lightbox">&times;</button>
+    <div class="relative max-w-4xl max-h-[90vh] flex items-center justify-center">
+      <img id="lightbox-img" src="" alt="Menu Fullscreen" class="max-w-full max-h-[90vh] object-contain rounded-sm shadow-2xl cursor-default" />
+    </div>
+  </div>
+</Layout>
 
 <script>
   import menuData from '../data/menu.json';
   const images = menuData.menu_images;
-  // All light-box script bindings follow below cleanly...
+
+  const triggers = document.querySelectorAll('.menu-trigger');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+  const lightboxClose = document.getElementById('lightbox-close');
+
+  if (lightbox && lightboxImg) {
+    triggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const indexAttr = trigger.getAttribute('data-index');
+        if (indexAttr !== null) {
+          const index = parseInt(indexAttr, 10);
+          const imgSrc = images[index];
+          if (imgSrc) {
+            lightboxImg.src = imgSrc;
+            lightbox.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+          }
+        }
+      });
+    });
+
+    const closeLightbox = () => {
+      lightbox.classList.add('hidden');
+      lightboxImg.src = '';
+      document.body.style.overflow = '';
+    };
+
+    lightboxClose?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closeLightbox();
+    });
+
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) {
+        closeLightbox();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+        closeLightbox();
+      }
+    });
+  }
 </script>
