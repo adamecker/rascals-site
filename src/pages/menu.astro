@@ -53,51 +53,55 @@ import menuData from '../data/menu.json';
 </Layout>
 
 <script>
-  import menuData from '../data/menu.json';
-  const images = menuData.menu_images;
+  function initLightbox() {
+    const triggers = document.querySelectorAll('.menu-trigger');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+    const lightboxClose = document.getElementById('lightbox-close');
 
-  const triggers = document.querySelectorAll('.menu-trigger');
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
-  const lightboxClose = document.getElementById('lightbox-close');
-
-  if (lightbox && lightboxImg) {
-    triggers.forEach((trigger) => {
-      trigger.addEventListener('click', () => {
-        const indexAttr = trigger.getAttribute('data-index');
-        if (indexAttr !== null) {
-          const index = parseInt(indexAttr, 10);
-          const imgSrc = images[index];
-          if (imgSrc) {
-            lightboxImg.src = imgSrc;
-            lightbox.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    if (lightbox && lightboxImg) {
+      triggers.forEach((trigger) => {
+        trigger.addEventListener('click', () => {
+          const img = trigger.querySelector('img');
+          if (img) {
+            const imgSrc = img.getAttribute('src');
+            if (imgSrc) {
+              lightboxImg.src = imgSrc;
+              lightbox.classList.remove('hidden');
+              document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
           }
+        });
+      });
+
+      const closeLightbox = () => {
+        lightbox.classList.add('hidden');
+        lightboxImg.src = '';
+        document.body.style.overflow = '';
+      };
+
+      lightboxClose?.addEventListener('click', (e) => {
+        e.stopPropagation();
+        closeLightbox();
+      });
+
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+          closeLightbox();
         }
       });
-    });
 
-    const closeLightbox = () => {
-      lightbox.classList.add('hidden');
-      lightboxImg.src = '';
-      document.body.style.overflow = '';
-    };
-
-    lightboxClose?.addEventListener('click', (e) => {
-      e.stopPropagation();
-      closeLightbox();
-    });
-
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) {
-        closeLightbox();
-      }
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
-        closeLightbox();
-      }
-    });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !lightbox.classList.contains('hidden')) {
+          closeLightbox();
+        }
+      });
+    }
   }
+
+  // Run on initial load
+  initLightbox();
+
+  // Run on Astro page transitions
+  document.addEventListener('astro:page-load', initLightbox);
 </script>
